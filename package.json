@@ -1,0 +1,53 @@
+{
+  "name": "react-text-annotate-blend",
+  "version": "1.0.0",
+  "description": "React component for interactive blended text marking",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "start": "rollup -c -w",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smhaley/react-text-annotate-blend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smhaley/react-text-annotate-blend/issues"
+  },
+  "homepage": "https://github.com/smhaley/react-text-annotate-blend#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@testing-library/react": "^11.2.5",
+    "@types/jest": "^26.0.20",
+    "@types/lodash.sortby": "^4.7.6",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.1",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "jest": "^26.6.3",
+    "lodash.sortby": "^4.7.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "rollup": "^2.40.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-sass": "^1.2.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "typescript": "^4.2.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "lodash.sortby": "^4.7.0"
+  }
+}

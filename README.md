@@ -1,7 +1,5 @@
 # react-text-annotate-blend
-### React component for blended text annotations
-
-A simple component to add more complexity to tagging tools.
+### React component for interactive text annotations with overlap blending
 
 
 This project extends the `Text Annotator` component from <a href='https://mcamac.github.io/react-text-annotate/>'>`react-text-annotate`</a>.
@@ -12,7 +10,7 @@ This project extends the `Text Annotator` component from <a href='https://mcamac
 
 ### Minimum example:
 
-```
+```js
 const value = [
   {
     "start": 5,
@@ -36,5 +34,3 @@ const value = [
     value={value}
 />
 ```
-
-<span data-start="0" data-end="5">This </span><mark style="background-color: rgb(179, 245, 66); padding: 0px 4px;" data-start="5" data-end="24">component lets you </mark><mark style="background-color: rgb(135, 245, 179); padding: 0px 4px;" data-start="24" data-end="29">blend</mark><mark style="background-color: rgb(66, 245, 245); padding: 0px 4px;" data-start="29" data-end="41"> annotations</mark><span data-start="41" data-end="42">!</span>
