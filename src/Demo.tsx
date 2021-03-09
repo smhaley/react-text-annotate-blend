@@ -152,28 +152,28 @@ App = () => {
 
     return (
         <>
-            <TextAnnotateBlend
-                style={{
-                maxWidth: 500,
-                fontSize: "1.2rem",
-                }}
-                content="This component lets you blend annotations!"
-                onChange={handleChange}
-                value={value}
-                getSpan={(span) => ({
-                    ...span,
-                    tag: tag,
-                    color: COLORS[tag],
-                })}
-            />
-            <select value={tag} onChange={(e) => setTag(e.target.value)}>
-                <option value="tagA">tagA</option>
-                <option value="tagB">tagB</option>
-            </select>
+        <TextAnnotateBlend
+            style={{
+            maxWidth: 500,
+            fontSize: "1.2rem",
+            }}
+            content="This component lets you blend annotations!"
+            onChange={handleChange}
+            value={value}
+            getSpan={(span) => ({
+                ...span,
+                tag: tag,
+                color: COLORS[tag],
+            })}
+        />
+        <select value={tag} onChange={(e) => setTag(e.target.value)}>
+            <option value="tagA">tagA</option>
+            <option value="tagB">tagB</option>
+        </select>
 
-            <pre>{JSON.stringify(value, null, 2)}</pre>
-        </>
-    );
+        <pre>{JSON.stringify(value, null, 2)}</pre>
+    </>
+);
     }`}
       </SyntaxHighlighter>
       </Box>
