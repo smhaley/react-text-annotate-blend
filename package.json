@@ -1,53 +1,48 @@
 {
-  "name": "react-text-annotate-blend",
-  "version": "1.0.0",
-  "description": "React component for interactive blended text marking",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "scripts": {
-    "build": "rollup -c",
-    "start": "rollup -c -w",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smhaley/react-text-annotate-blend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/smhaley/react-text-annotate-blend/issues"
-  },
-  "homepage": "https://github.com/smhaley/react-text-annotate-blend#readme",
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.0",
-    "@testing-library/react": "^11.2.5",
+  "name": "react-text-annotate-blend-docs",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/user-event": "^12.6.0",
     "@types/jest": "^26.0.20",
-    "@types/lodash.sortby": "^4.7.6",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.1",
-    "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0",
-    "jest": "^26.6.3",
+    "@types/node": "^12.19.13",
+    "@types/react": "^16.14.2",
+    "@types/react-dom": "^16.9.10",
     "lodash.sortby": "^4.7.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "rollup": "^2.40.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-sass": "^1.2.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.2.3"
+    "react-scripts": "4.0.1",
+    "react-text-annotate-blend": "file:../../react-text-annotate-blend",
+    "typescript": "^4.1.3",
+    "web-vitals": "^0.2.4"
   },
-  "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
-    "lodash.sortby": "^4.7.0"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/lodash.sortby": "^4.7.6"
   }
 }
