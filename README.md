@@ -5,7 +5,7 @@
 This project extends the `Text Annotator` component from <a href='https://mcamac.github.io/react-text-annotate/>'>`react-text-annotate`</a>.
 
 
-#### Check the docs!
+#### <a href='https://smhaley.github.io/react-text-annotate-blend/'>Check the docs!</a>
 
 
 ### Minimum example:
