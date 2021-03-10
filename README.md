@@ -2,7 +2,7 @@
 ### React component for interactive text annotations with overlap blending
 
 
-This project extends the `Text Annotator` component from <a href='https://mcamac.github.io/react-text-annotate/>'>`react-text-annotate`</a>.
+This project extends the `TextAnnotator` component from <a href='https://mcamac.github.io/react-text-annotate/>'>`react-text-annotate`</a>.
 
 
 <a href='https://smhaley.github.io/react-text-annotate-blend/'> <b>Check the docs!</b></a>
