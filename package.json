@@ -1,6 +1,6 @@
 {
   "name": "react-text-annotate-blend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React component for interactive blended text marking",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/smhaley/react-text-annotate-blend/issues"
   },
-  "homepage": "https://github.com/smhaley/react-text-annotate-blend#readme",
+  "homepage": "https://smhaley.github.io/react-text-annotate-blend",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",

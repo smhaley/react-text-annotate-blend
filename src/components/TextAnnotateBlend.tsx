@@ -90,6 +90,7 @@ const TextAnnotateBlend = <T extends Span>(props: TextAnnotateBlendProps<T>) => 
     const { blendIndices } = blender(value);
 
     const currentTags = sortBy(props.value, ["start"]);
+
     const frontOverlapIndex = currentTags.findIndex(
       (tag, index) => tag.start === start && blendIndices.includes(index)
     );
@@ -98,31 +99,31 @@ const TextAnnotateBlend = <T extends Span>(props: TextAnnotateBlendProps<T>) => 
       (tag, index) => tag.end === end && blendIndices.includes(index)
     );
 
-    const splitIndex = props.value.findIndex(
+    const splitIndex = currentTags.findIndex(
       (s) => s.start === start && s.end === end
     );
 
     if (splitIndex >= 0) {
       tagTransformer(
         [
-          ...props.value.slice(0, splitIndex),
-          ...props.value.slice(splitIndex + 1),
+          ...currentTags.slice(0, splitIndex),
+          ...currentTags.slice(splitIndex + 1),
         ],
         props.onChange
       );
     } else if (frontOverlapIndex >= 0) {
       tagTransformer(
         [
-          ...props.value.slice(0, frontOverlapIndex),
-          ...props.value.slice(frontOverlapIndex + 1),
+          ...currentTags.slice(0, frontOverlapIndex),
+          ...currentTags.slice(frontOverlapIndex + 1),
         ],
         props.onChange
       );
     } else if (rearOverlapIndex >= 0) {
       tagTransformer(
         [
-          ...props.value.slice(0, rearOverlapIndex),
-          ...props.value.slice(rearOverlapIndex + 1),
+          ...currentTags.slice(0, rearOverlapIndex),
+          ...currentTags.slice(rearOverlapIndex + 1),
         ],
         props.onChange
       );
