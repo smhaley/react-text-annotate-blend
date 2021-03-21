@@ -22,7 +22,7 @@ const makeRow = (name: string, type: any, desc: string) => {
 const rows = [
   makeRow("content", "string", "Input string to annotate"),
   makeRow("value", "array", "List of annotations to mark. "),
-  makeRow("onChange", "function",  "handler used to set updated value"),
+  makeRow("onChange", "function", "handler used to set updated value"),
   makeRow(
     "getSpan",
     "function",
@@ -33,16 +33,8 @@ const rows = [
     "string",
     "This represents the color of the new tag. Current only hex and rgb colors are accepted."
   ),
-  makeRow(
-    "getSpan tag",
-    "string",
-    "Represents the label on subsequent tags."
-  ),
-  makeRow(
-    "style",
-    "function",
-    "Style attributed to the text container."
-  ),
+  makeRow("getSpan tag", "string", "Represents the label on subsequent tags."),
+  makeRow("style", "function", "Style attributed to the text container."),
 ];
 
 const Props: React.FC = () => {
@@ -72,9 +64,11 @@ const Props: React.FC = () => {
             {rows.map((row) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  <pre>{row.name}</pre>
                 </TableCell>
-                <TableCell align="left">{row.type}</TableCell>
+                <TableCell align="left">
+                  <pre>{row.type}</pre>
+                </TableCell>
                 <TableCell align="left">{row.desc}</TableCell>
               </TableRow>
             ))}

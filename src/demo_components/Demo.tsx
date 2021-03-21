@@ -152,6 +152,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
     const demoVisible = !!demoEntry?.isIntersecting;
     const codeVisible = !!codeEntry?.isIntersecting;
     if (demoVisible) {
+      console.log("acive 0");
       activeHandler(0);
     }
     if (codeVisible) {
@@ -171,7 +172,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
   }, [clickSection]);
 
   return (
-    <div ref={demoRef}>
+    <>
       <Box pt={2}>
         <h3>TextAnnotateBlend</h3>
       </Box>
@@ -180,7 +181,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
         Simply highlight to tag & click to untag
       </Box>
       <LiveProvider code={code} scope={scope}>
-        <div>
+        <div ref={demoRef}>
           <LivePreview />
         </div>
         <div ref={codeRef}>
@@ -197,7 +198,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
           </Box>
         </div>
       </LiveProvider>
-    </div>
+    </>
   );
 };
 

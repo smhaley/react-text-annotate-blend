@@ -27,7 +27,7 @@ const Section = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
     if (isVisible) {
       activeHandler(index);
     }
-  }, [entry, activeHandler, index]);
+  }, [entry, index, activeHandler]);
 
   return <div ref={node}>{children}</div>;
 });
