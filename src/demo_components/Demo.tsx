@@ -7,7 +7,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import useIntersectionObserver from "./useIntersectionObserver";
-import Install from "./Install"
+import Install from "./Install";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import github from "prism-react-renderer/themes/github";
 
@@ -26,25 +26,25 @@ const useStyles = makeStyles((theme) => ({
 
 const init = [
   {
-    start: 6,
-    end: 14,
-    text: "are many",
-    tag: "tagA",
-    color: "rgb(179, 245, 66)",
-  },
-  {
     start: 10,
-    end: 23,
-    text: "many stories ",
+    end: 22,
+    text: "many stories",
     tag: "tagC",
-    color: "#4B46CD",
+    color: "#4b46cd",
   },
   {
-    start: 78,
-    end: 82,
-    text: "road",
+    start: 15,
+    end: 28,
+    text: "stories about",
     tag: "tagB",
     color: "#42f5f5",
+  },
+  {
+    start: 120,
+    end: 124,
+    text: "each",
+    tag: "tagC",
+    color: "#4b46cd",
   },
 ];
 
@@ -157,7 +157,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
     if (codeVisible) {
       activeHandler(1);
     }
-  }, [demoEntry, codeEntry]);
+  }, [demoEntry, codeEntry, activeHandler]);
 
   useEffect(() => {
     const node = refs[clickSection];
@@ -167,6 +167,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
         block: "start",
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickSection]);
 
   return (
@@ -174,7 +175,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
       <Box pt={2}>
         <h3>TextAnnotateBlend</h3>
       </Box>
-      <Install/>
+      <Install />
       <Box pl={2} mb={2}>
         Simply highlight to tag & click to untag
       </Box>
@@ -189,7 +190,6 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
           <Box pb={3}>
             <Paper elevation={2} className={classes.liveCode}>
               <LiveEditor theme={github} />
-
               <Box className={classes.error}>
                 <LiveError />
               </Box>

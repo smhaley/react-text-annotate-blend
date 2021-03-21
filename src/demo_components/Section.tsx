@@ -1,4 +1,4 @@
-import React, { RefObject, useRef, useEffect, MutableRefObject } from "react";
+import React, { useEffect, MutableRefObject } from "react";
 import useIntersectionObserver from "./useIntersectionObserver";
 
 // interface Props {
@@ -12,24 +12,24 @@ type Props = {
 };
 
 const Section = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const {activeHandler, index, children} = props
 
   const node = ref as MutableRefObject<HTMLDivElement>;
 
   const entry = useIntersectionObserver(node, {    
     
     threshold: 0,
-    // root = null,
     rootMargin: "-50% 0px -50% 0px",
     freezeOnceVisible: false});
 
   useEffect(() => {
     const isVisible = !!entry?.isIntersecting;
     if (isVisible) {
-      props.activeHandler(props.index);
+      activeHandler(index);
     }
-  }, [entry]);
+  }, [entry, activeHandler, index]);
 
-  return <div ref={node}>{props.children}</div>;
+  return <div ref={node}>{children}</div>;
 });
 
 export default Section;

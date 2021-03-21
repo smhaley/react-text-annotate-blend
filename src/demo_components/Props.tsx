@@ -15,36 +15,32 @@ const useStyles = makeStyles({
   },
 });
 
-const makeRow = (name: string, type: any, required: string, desc: string) => {
-  return { name, type, required, desc };
+const makeRow = (name: string, type: any, desc: string) => {
+  return { name, type, desc };
 };
 
 const rows = [
-  makeRow("content", "string", "true", "Input string to annotate"),
-  makeRow("value", "array", "false", "List of annotations to mark. "),
-  makeRow("onChange", "function", "false", "handler used to set updated value"),
+  makeRow("content", "string", "Input string to annotate"),
+  makeRow("value", "array", "List of annotations to mark. "),
+  makeRow("onChange", "function",  "handler used to set updated value"),
   makeRow(
     "getSpan",
     "function",
-    "false",
     "Passes current label and color to each new mouseUp event (annotation)"
   ),
   makeRow(
     "getSpan color",
     "string",
-    "false",
     "This represents the color of the new tag. Current only hex and rgb colors are accepted."
   ),
   makeRow(
     "getSpan tag",
     "string",
-    "false",
     "Represents the label on subsequent tags."
   ),
   makeRow(
     "style",
     "function",
-    "false",
     "Style attributed to the text container."
   ),
 ];
@@ -68,9 +64,6 @@ const Props: React.FC = () => {
                 <b>Type</b>
               </TableCell>
               <TableCell align="left">
-                <b>Required</b>
-              </TableCell>
-              <TableCell align="left">
                 <b>Description</b>
               </TableCell>
             </TableRow>
@@ -82,7 +75,6 @@ const Props: React.FC = () => {
                   {row.name}
                 </TableCell>
                 <TableCell align="left">{row.type}</TableCell>
-                <TableCell align="left">{row.required}</TableCell>
                 <TableCell align="left">{row.desc}</TableCell>
               </TableRow>
             ))}
