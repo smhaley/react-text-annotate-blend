@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "react-text-annotate-blend",
+  "name": "react-text-annotate-blend",
   "icons": [],
   "start_url": ".",
   "display": "standalone",
