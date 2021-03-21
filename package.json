@@ -5,20 +5,22 @@
   "homepage": "http://smhaley.github.io/react-text-annotate-blend",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
     "@types/jest": "^26.0.20",
     "@types/material-ui": "^0.21.8",
     "@types/node": "^12.19.13",
-    "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
     "lodash.sortby": "^4.7.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-live": "^2.2.3",
     "react-scripts": "4.0.1",
     "react-syntax-highlighter": "^15.4.3",
-    "react-text-annotate-blend": "file:../../react-text-annotate-blend",
+    "react-text-annotate-blend": "github:smhaley/react-text-annotate-blend",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
   },
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@types/lodash.sortby": "^4.7.6",
+    "@types/react": "^16.14.5",
     "@types/react-syntax-highlighter": "^13.5.0",
     "gh-pages": "^3.1.0"
   }

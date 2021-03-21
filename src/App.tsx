@@ -1,53 +1,90 @@
-import React, { useState } from "react";
-import TextAnnotateBlend from "./components/TextAnnotateBlend"
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
-import Demo from './Demo'
-// import MenuIcon from '@material-ui/icons/Menu';
+import React, { useState, useRef } from "react";
+import NavBar from "./NavBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Paper from "@material-ui/core/Paper";
+import Props from "./demo_components/Props";
+import Demo from "./demo_components/Demo";
+import Section from "./demo_components/Section";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  toolbar: theme.mixins.toolbar,
   title: {
     flexGrow: 1,
+  },
+  main: {
+    paddingLeft: "10%",
+    paddingRight: "10%",
+  },
+  content: {
+    flexGrow: 1,
+
+    padding: theme.spacing(1),
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: "220px",
+    },
   },
 }));
 
 export default function App() {
   const classes = useStyles();
-  return (
-  <React.Fragment>
-    <CssBaseline />
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            react-text-annotate-blend
-          </Typography>
-          <Button color="inherit" href={'https://github.com/smhaley/react-text-annotate-blend'}>source</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-    <Container maxWidth="md" style={{height: '100%' }}>
-       <Box m={3}>
-       <Demo/>
-       </Box>
 
-      </Container>
-  </React.Fragment>
+  const [activeProp, setActiveProp] = useState(0);
+  const [demoSection, setDemoSection] = useState("NA");
+
+  const propsRef = useRef<HTMLDivElement | null>(null);
+
+  const refs = {
+    Props: propsRef,
+  };
+
+  const activeHandler = (index: number) => {
+    setActiveProp(index);
+  };
+
+  const clickHandler = (index: number, section: string) => {
+    const node = refs[section];
+    if (node && node.current) {
+      node.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      setDemoSection("NA");
+    } else {
+      setDemoSection(section);
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <NavBar active={activeProp} clickHandler={clickHandler} />
+      <main className={classes.content}>
+        <Container maxWidth="md" style={{ height: "100%" }}>
+          <Toolbar />
+          <Paper className={classes.main}>
+            <Demo
+              activeHandler={activeHandler}
+              clickSection={demoSection}
+            />
+            <Section ref={propsRef} index={2} activeHandler={activeHandler}>
+              <Props />
+            </Section>
+          </Paper>
+        </Container>
+      </main>
+    </React.Fragment>
   );
 }
