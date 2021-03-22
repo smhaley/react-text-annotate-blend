@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@types/lodash.sortby": "^4.7.6",
+    "@types/prismjs": "^1.16.3",
     "@types/react": "^16.14.5",
     "@types/react-syntax-highlighter": "^13.5.0",
     "gh-pages": "^3.1.0"

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
- 
+
   installBox: {
     display: "flex",
     alignItems: "center",
@@ -26,11 +26,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const installText = "npm i react-text-annotate-blend";
-
-
 const Install: React.FC = () => {
   const classes = useStyles();
-
 
   const [open, setOpen] = useState(false);
 
@@ -45,7 +42,6 @@ const Install: React.FC = () => {
     }
     setOpen(false);
   };
-
 
   return (
     <>

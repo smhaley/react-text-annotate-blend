@@ -10,6 +10,7 @@ import useIntersectionObserver from "./useIntersectionObserver";
 import Install from "./Install";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import github from "prism-react-renderer/themes/github";
+import Prism from "prismjs"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +49,10 @@ const init = [
   },
 ];
 
-const code = `function App () {
+const code = `
+//import { TextAnnotateBlend } from "react-text-annotate-blend"
+
+function App () {
     const [value, setValue] = React.useState(init);
     const [tag, setTag] = React.useState("tagA");
   
