@@ -150,9 +150,7 @@ export const tagTransformer = (value: any, onChange: (value: []) => any) => {
     let overlap = 0;
 
     tags.forEach((val) => {
-      
-      delete val["index"]
-      
+            
       const tagRange = range(val.start, val.end);
 
       let tagOverlap = tagRange
