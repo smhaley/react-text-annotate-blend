@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import useIntersectionObserver from "./useIntersectionObserver";
 import Install from "./Install";
+// import {TextAnnotateBlend} from "react-text-annotate-blend"
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import github from "prism-react-renderer/themes/github";
 
@@ -65,7 +66,7 @@ function App () {
       tagB: "#42f5f5",
       tagC: "#4b46cd",
     };
-  
+
     return (
       <>
       <Div>

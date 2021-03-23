@@ -298,7 +298,7 @@ const updateIndices = (splits: Array<Tag>, blend: Array<Tag>) => {
 
     return outRange;
   });
-  splits.forEach(tag=> delete tag["__index__"])
+  // splits.forEach(tag=> delete tag["__index__"])
   return {
     outRanges: [...outRanges, ...incRange],
     metaData: [...metaData, ...incMeta],
@@ -344,6 +344,8 @@ export const blender = (tags: Array<Tag>) => {
     const remainder = currentTags.filter(
       (_, index) => !tagIndices.includes(index)
     );
+
+    tags.forEach(tag=> delete tag['__index__'])
 
     return {
       tags: [...overlap, ...outTags, ...remainder],
