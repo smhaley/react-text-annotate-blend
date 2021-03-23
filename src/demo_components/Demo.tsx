@@ -10,7 +10,7 @@ import useIntersectionObserver from "./useIntersectionObserver";
 import Install from "./Install";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import github from "prism-react-renderer/themes/github";
-import Prism from "prismjs"
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
