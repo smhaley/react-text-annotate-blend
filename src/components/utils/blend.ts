@@ -18,7 +18,7 @@ interface Tag extends Split {
   text?: string;
   tag?: string;
   color?: string;
-  index?: number;
+  __index__?: number;
 }
 
 interface Blend extends Split {
@@ -182,13 +182,13 @@ const updateIndices = (splits: Array<Tag>, blend: Array<Tag>) => {
       if (semiInclusive || totalInclusive || blendInclusive) {
         tagIndices.push(j);
       }
-      i.index = j;
+      i.__index__ = j;
 
       if (
         (semiInclusive && !totalInclusive) ||
         (blendInclusive && !totalInclusive)
       ) {
-        metaIndex.push(i.index);
+        metaIndex.push(i.__index__);
         metaData.push({
           color: i.color,
         });
@@ -298,6 +298,7 @@ const updateIndices = (splits: Array<Tag>, blend: Array<Tag>) => {
 
     return outRange;
   });
+  splits.forEach(tag=> delete tag["__index__"])
   return {
     outRanges: [...outRanges, ...incRange],
     metaData: [...metaData, ...incMeta],
