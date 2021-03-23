@@ -84,32 +84,6 @@ export const blend = (colA: string, colB: string) => {
   );
 };
 
-// interface Label {
-//   start: number;
-//   end: number;
-//   color?: string;
-//   mark?: boolean;
-// }
-
-// export const getOverlap = (content: string, splits: Array<Label>) => {
-//   return splits.map((valA, index) => {
-//     if (valA.mark === true && valA.color) {
-//       let valB = splits[index + 1];
-
-//       if (valA.end > valB.start && valB.mark && valB.color) {
-//         return {
-//           start: valB.start,
-//           end: valA.end,
-//           text: content.slice(valB.start, valA.end),
-//           mark: true,
-//           color: "blend(valA.color, valB.color)",
-//           overlap: true,
-//         };
-//       }
-//     }
-//   });
-// };
-
 export const splitWithOffsets = (
   text: string,
   offsets: { start: number; end: number }[]
@@ -167,8 +141,6 @@ export const selectionIsBackwards = (selection: Selection) => {
 };
 
 export const tagTransformer = (value: any, onChange: (value: []) => any) => {
-  //TODO remove internally
-  value.forEach((tag: any) => delete tag["index"]);
 
   if (value.length) {
     const tags = [...value];
