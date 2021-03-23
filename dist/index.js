@@ -2707,29 +2707,6 @@ const blend = (colA, colB) => {
     let blend = rgbMean(a, b);
     return ("rgb(" + +blend.r + "," + +blend.g + "," + +blend.b + "," + +blend.a + ")");
 };
-// interface Label {
-//   start: number;
-//   end: number;
-//   color?: string;
-//   mark?: boolean;
-// }
-// export const getOverlap = (content: string, splits: Array<Label>) => {
-//   return splits.map((valA, index) => {
-//     if (valA.mark === true && valA.color) {
-//       let valB = splits[index + 1];
-//       if (valA.end > valB.start && valB.mark && valB.color) {
-//         return {
-//           start: valB.start,
-//           end: valA.end,
-//           text: content.slice(valB.start, valA.end),
-//           mark: true,
-//           color: "blend(valA.color, valB.color)",
-//           overlap: true,
-//         };
-//       }
-//     }
-//   });
-// };
 const splitWithOffsets = (text, offsets) => {
     let lastEnd = 0;
     const splits = [];
@@ -2769,15 +2746,12 @@ const selectionIsBackwards = (selection) => {
     return backward;
 };
 const tagTransformer = (value, onChange) => {
-    //TODO remove internally
-    value.forEach((tag) => delete tag["index"]);
     if (value.length) {
         const tags = [...value];
         const newTag = tags.pop();
         const newTagRange = range(newTag.start, newTag.end);
         let overlap = 0;
         tags.forEach((val) => {
-            delete val["index"];
             const tagRange = range(val.start, val.end);
             let tagOverlap = tagRange
                 .map((i) => {
@@ -2928,10 +2902,10 @@ const updateIndices = (splits, blend) => {
         if (semiInclusive || totalInclusive || blendInclusive) {
             tagIndices.push(j);
         }
-        i.index = j;
+        i.__index__ = j;
         if ((semiInclusive && !totalInclusive) ||
             (blendInclusive && !totalInclusive)) {
-            metaIndex.push(i.index);
+            metaIndex.push(i.__index__);
             metaData.push({
                 color: i.color,
             });
@@ -3053,6 +3027,7 @@ const blender = (tags) => {
         const { outRanges, metaData, tagIndices } = updateIndices(currentTags, overlap);
         const outTags = tagFilter({ outRanges, metaData });
         const remainder = currentTags.filter((_, index) => !tagIndices.includes(index));
+        tags.forEach(tag => delete tag['__index__']);
         return {
             tags: [...overlap, ...outTags, ...remainder],
             blendIndices: tagIndices,
@@ -3122,23 +3097,23 @@ const TextAnnotateBlend = (props) => {
         const currentTags = lodash_sortby(props.value, ["start"]);
         const frontOverlapIndex = currentTags.findIndex((tag, index) => tag.start === start && blendIndices.includes(index));
         const rearOverlapIndex = currentTags.findIndex((tag, index) => tag.end === end && blendIndices.includes(index));
-        const splitIndex = props.value.findIndex((s) => s.start === start && s.end === end);
+        const splitIndex = currentTags.findIndex((s) => s.start === start && s.end === end);
         if (splitIndex >= 0) {
             tagTransformer([
-                ...props.value.slice(0, splitIndex),
-                ...props.value.slice(splitIndex + 1),
+                ...currentTags.slice(0, splitIndex),
+                ...currentTags.slice(splitIndex + 1),
             ], props.onChange);
         }
         else if (frontOverlapIndex >= 0) {
             tagTransformer([
-                ...props.value.slice(0, frontOverlapIndex),
-                ...props.value.slice(frontOverlapIndex + 1),
+                ...currentTags.slice(0, frontOverlapIndex),
+                ...currentTags.slice(frontOverlapIndex + 1),
             ], props.onChange);
         }
         else if (rearOverlapIndex >= 0) {
             tagTransformer([
-                ...props.value.slice(0, rearOverlapIndex),
-                ...props.value.slice(rearOverlapIndex + 1),
+                ...currentTags.slice(0, rearOverlapIndex),
+                ...currentTags.slice(rearOverlapIndex + 1),
             ], props.onChange);
         }
     };

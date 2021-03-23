@@ -6,7 +6,7 @@ interface Tag extends Split {
     text?: string;
     tag?: string;
     color?: string;
-    index?: number;
+    __index__?: number;
 }
 interface Blend extends Split {
     text?: string;
@@ -16,7 +16,7 @@ interface Blend extends Split {
 export declare const focusOverlap: (baseTag: Tag, splits: Array<Tag>) => Blend[];
 export declare const getOverlap: (splits: Array<Tag>) => Blend[];
 export declare const blender: (tags: Array<Tag>) => {
-    tags: (Blend | {
+    tags: (Tag | Blend | {
         start: number;
         end: number;
         color?: string | undefined;
