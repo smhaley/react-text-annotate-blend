@@ -11,7 +11,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Link from "@material-ui/core/Link";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Typography from "@material-ui/core/Typography";
+import BrightnessIcon from "@material-ui/icons/Brightness7";
 import {
   makeStyles,
   useTheme,
@@ -33,7 +35,14 @@ const useStyles = makeStyles((theme: Theme) =>
         flexShrink: 0,
       },
     },
-    appBar: {
+    appBarLight: {
+      background: "linear-gradient(.25turn, #4b46cd,  #47b4e2)",
+      marginLeft: drawerWidth,
+      [theme.breakpoints.up("md")]: {
+        zIndex: theme.zIndex.drawer + 1,
+      },
+    },
+    appBarDark: {
       marginLeft: drawerWidth,
       [theme.breakpoints.up("md")]: {
         zIndex: theme.zIndex.drawer + 1,
@@ -74,13 +83,19 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "auto",
     },
     activeText: {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.secondary.main,
+    },
+
+    heading: {
+      color: "white",
     },
   })
 );
 
 interface Props {
-  // state: React.Dispatch<React.SetStateAction<number>>;
+  
+  darkMode: boolean;
+  setDarkMode: (darkMode: boolean) => void;
   active: number;
   clickHandler: (index: number, section: string) => void;
   window?: () => Window;
@@ -100,10 +115,14 @@ const NavBar = (props: Props) => {
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      {/* <Box mt={4}> */}
       <List>
         {["TextAnnotateBlend", "Live Code", "Props"].map((text, index) => (
-          <ListItem key={text} onClick={() => clickHandler(index, text)}>
+          <ListItem
+            button
+            style={{ backgroundColor: "transparent" }}
+            key={text}
+            onClick={() => clickHandler(index, text)}
+          >
             {active === index ? (
               <strong className={classes.activeText}>{text}</strong>
             ) : (
@@ -112,7 +131,6 @@ const NavBar = (props: Props) => {
           </ListItem>
         ))}
       </List>
-      {/* </Box> */}
       <Divider />
     </div>
   );
@@ -123,7 +141,10 @@ const NavBar = (props: Props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar
+        position="fixed"
+        className={props.darkMode ? classes.appBarDark : classes.appBarLight}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -134,21 +155,26 @@ const NavBar = (props: Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.heading}>
             <b> react-text-annotate-blend</b>
           </Typography>
           <div className={classes.titleBarIcons}>
-            <IconButton aria-label="github.com">
-              <Link href="https://github.com/smhaley/react-text-annotate-blend">
-                <GitHubIcon color="secondary" />
-              </Link>
+            <IconButton
+              onClick={() => props.setDarkMode(!props.darkMode)}
+              aria-label="Light mode"
+            >
+              {props.darkMode ? <Brightness4Icon /> : <BrightnessIcon />}
             </IconButton>
+            <Link href="https://github.com/smhaley/react-text-annotate-blend">
+              <IconButton aria-label="github.com">
+                <GitHubIcon />
+              </IconButton>
+            </Link>
           </div>
           <div className={classes.rightIcons}></div>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
             container={container}

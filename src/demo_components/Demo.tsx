@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import TextAnnotateBlend from "../components/TextAnnotateBlend";
+// import TextAnnotateBlend from "../components/TextAnnotateBlend";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,10 +8,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import useIntersectionObserver from "./useIntersectionObserver";
 import Install from "./Install";
-// import {TextAnnotateBlend} from "react-text-annotate-blend"
+import { TextAnnotateBlend } from "react-text-annotate-blend";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import github from "prism-react-renderer/themes/github";
-
+import dracula from "prism-react-renderer/themes/dracula";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   error: {
     backgroundColor: "#ff5555",
     color: "#f9ded9",
+  },
+  demoDiv: {
+    overflowX: "auto",
   },
 }));
 
@@ -125,9 +128,12 @@ const Selector: React.FC<SelectorProps> = ({ value, handler }) => {
 };
 
 const Div: React.FC = ({ children }) => {
+  const classes = useStyles();
   return (
     <Paper elevation={2}>
-      <Box p={2}>{children}</Box>
+      <Box className={classes.demoDiv} p={2}>
+        {children}
+      </Box>
     </Paper>
   );
 };
@@ -137,9 +143,14 @@ const scope = { TextAnnotateBlend, init, Selector, Div, demoText };
 interface DemoProps {
   activeHandler: (index: number) => void;
   clickSection: string;
+  darkMode: boolean;
 }
 
-const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
+const Demo: React.FC<DemoProps> = ({
+  activeHandler,
+  clickSection,
+  darkMode,
+}) => {
   const classes = useStyles();
 
   const demoRef = useRef<HTMLDivElement | null>(null);
@@ -157,7 +168,6 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
     const demoVisible = !!demoEntry?.isIntersecting;
     const codeVisible = !!codeEntry?.isIntersecting;
     if (demoVisible) {
-      console.log("acive 0");
       activeHandler(0);
     }
     if (codeVisible) {
@@ -181,7 +191,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
       <Box pt={2}>
         <h3>TextAnnotateBlend</h3>
       </Box>
-      <Install />
+      <Install darkMode={darkMode} />
       <Box pl={2} mb={2}>
         Simply highlight to tag & click to untag
       </Box>
@@ -195,7 +205,7 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
           </Box>
           <Box pb={3}>
             <Paper elevation={2} className={classes.liveCode}>
-              <LiveEditor theme={github} />
+              <LiveEditor theme={darkMode ? dracula : github} />
               <Box className={classes.error}>
                 <LiveError />
               </Box>
@@ -207,4 +217,4 @@ const Demo2: React.FC<DemoProps> = ({ activeHandler, clickSection }) => {
   );
 };
 
-export default Demo2;
+export default Demo;

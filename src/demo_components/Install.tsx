@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { dracula, github } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -26,7 +26,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const installText = "npm i react-text-annotate-blend";
-const Install: React.FC = () => {
+
+interface Props {
+  darkMode: boolean;
+}
+
+const Install: React.FC<Props> = ({darkMode}) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -55,13 +60,16 @@ const Install: React.FC = () => {
           <strong>Installation: </strong>
         </Box>
         <Box>
-          <SyntaxHighlighter language="javascript" style={docco}>
+          <SyntaxHighlighter
+            language="javascript"
+            style={darkMode ? dracula : github}
+          >
             {`> ${installText}`}
           </SyntaxHighlighter>
         </Box>
         <Box>
           <IconButton onClick={() => copyToClipboard(installText)}>
-            <FileCopyIcon color="primary" />
+            <FileCopyIcon color="secondary" />
           </IconButton>
         </Box>
       </Box>

@@ -5,10 +5,52 @@ import Container from "@material-ui/core/Container";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Props from "./demo_components/Props";
 import Demo from "./demo_components/Demo";
 import Section from "./demo_components/Section";
+import { purple } from "@material-ui/core/colors";
 
+const lightTheme = createMuiTheme({
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
+    MuiSvgIcon: {
+      htmlColor: "white",
+    },
+  },
+
+  palette: {
+    primary: {
+      main: "#47b4e2",
+    },
+    secondary: {
+      main: "#4b46cd",
+    },
+  },
+});
+
+const darkTheme = createMuiTheme({
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
+    MuiSvgIcon: {
+      htmlColor: "white",
+    },
+  },
+
+  palette: {
+    type: "dark",
+    primary: {
+      main: "#303030",
+    },
+    secondary: {
+      main: purple[300],
+    },
+  },
+});
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -30,8 +72,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   content: {
     flexGrow: 1,
-
-    padding: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
     [theme.breakpoints.up("sm")]: {
       marginLeft: "220px",
     },
@@ -43,6 +85,7 @@ export default function App() {
 
   const [activeProp, setActiveProp] = useState(0);
   const [demoSection, setDemoSection] = useState("NA");
+  const [darkMode, setDarkMode] = useState(false);
 
   const propsRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,6 +95,10 @@ export default function App() {
 
   const activeHandler = (index: number) => {
     setActiveProp(index);
+  };
+
+  const darkModeHandler = (darkMode: boolean) => {
+    setDarkMode(darkMode);
   };
 
   const clickHandler = (index: number, section: string) => {
@@ -68,9 +115,14 @@ export default function App() {
   };
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <NavBar active={activeProp} clickHandler={clickHandler} />
+      <NavBar
+        active={activeProp}
+        clickHandler={clickHandler}
+        setDarkMode={darkModeHandler}
+        darkMode={darkMode}
+      />
       <main className={classes.content}>
         <Container maxWidth="md" style={{ height: "100%" }}>
           <Toolbar />
@@ -78,6 +130,7 @@ export default function App() {
             <Demo
               activeHandler={activeHandler}
               clickSection={demoSection}
+              darkMode={darkMode}
             />
             <Section ref={propsRef} index={2} activeHandler={activeHandler}>
               <Props />
@@ -85,6 +138,6 @@ export default function App() {
           </Paper>
         </Container>
       </main>
-    </React.Fragment>
+    </ThemeProvider>
   );
 }

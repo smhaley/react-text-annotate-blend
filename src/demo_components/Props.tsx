@@ -20,9 +20,9 @@ const makeRow = (name: string, type: any, desc: string) => {
 };
 
 const rows = [
-  makeRow("content", "string", "Input string to annotate"),
-  makeRow("value", "array", "List of annotations to mark. "),
-  makeRow("onChange", "function", "handler used to set updated value"),
+  makeRow("content", "string", "Input string to annotate."),
+  makeRow("value", "array", "List of annotations to mark"),
+  makeRow("onChange", "function", "Handler used to set updated value returned from <TextAnnotateBlend/>"),
   makeRow(
     "getSpan",
     "function",
@@ -31,9 +31,9 @@ const rows = [
   makeRow(
     "getSpan color",
     "string",
-    "This represents the color of the new tag. Current only hex and rgb colors are accepted."
+    "Color  attached to interactively created tags.. Current only hex and rgb colors are accepted."
   ),
-  makeRow("getSpan tag", "string", "Represents the label on subsequent tags."),
+  makeRow("getSpan tag", "string", "Label attached to interactively created tags."),
   makeRow("style", "function", "Style attributed to the text container."),
 ];
 
@@ -45,7 +45,8 @@ const Props: React.FC = () => {
       <Box pt={2}>
         <h3>Props</h3>
       </Box>
-      <TableContainer component={Paper}>
+      <Paper elevation={2}>
+      <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -75,6 +76,7 @@ const Props: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </Paper>
       <Box pt={4} pb={4}>
         <b>TextAnnotateBlend only supports a single overlap of annotations.</b>
       </Box>
