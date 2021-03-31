@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      paddingTop: theme.spacing(3),
+      padding: theme.spacing(3),
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4),
     },
@@ -93,9 +93,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  
-  darkMode: boolean;
-  setDarkMode: (darkMode: boolean) => void;
+  mode: string;
+  setMode: (mode: string) => void;
   active: number;
   clickHandler: (index: number, section: string) => void;
   window?: () => Window;
@@ -143,7 +142,7 @@ const NavBar = (props: Props) => {
       <CssBaseline />
       <AppBar
         position="fixed"
-        className={props.darkMode ? classes.appBarDark : classes.appBarLight}
+        className={props.mode ==='dark' ? classes.appBarDark : classes.appBarLight}
       >
         <Toolbar>
           <IconButton
@@ -160,10 +159,16 @@ const NavBar = (props: Props) => {
           </Typography>
           <div className={classes.titleBarIcons}>
             <IconButton
-              onClick={() => props.setDarkMode(!props.darkMode)}
+              onClick={() =>
+                props.setMode(props.mode === "dark" ? "light" : 'dark')
+              }
               aria-label="Light mode"
             >
-              {props.darkMode ? <Brightness4Icon /> : <BrightnessIcon />}
+              {props.mode === "light" ? (
+                <Brightness4Icon />
+              ) : (
+                <BrightnessIcon />
+              )}
             </IconButton>
             <Link href="https://github.com/smhaley/react-text-annotate-blend">
               <IconButton aria-label="github.com">

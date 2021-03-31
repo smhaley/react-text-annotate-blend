@@ -1,56 +1,16 @@
 import React, { useState, useRef } from "react";
-import NavBar from "./NavBar";
+import NavBar from "./demo_components/NavBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core";
 import Props from "./demo_components/Props";
 import Demo from "./demo_components/Demo";
 import Section from "./demo_components/Section";
-import { purple } from "@material-ui/core/colors";
-
-const lightTheme = createMuiTheme({
-  props: {
-    MuiButtonBase: {
-      disableRipple: true,
-    },
-    MuiSvgIcon: {
-      htmlColor: "white",
-    },
-  },
-
-  palette: {
-    primary: {
-      main: "#47b4e2",
-    },
-    secondary: {
-      main: "#4b46cd",
-    },
-  },
-});
-
-const darkTheme = createMuiTheme({
-  props: {
-    MuiButtonBase: {
-      disableRipple: true,
-    },
-    MuiSvgIcon: {
-      htmlColor: "white",
-    },
-  },
-
-  palette: {
-    type: "dark",
-    primary: {
-      main: "#303030",
-    },
-    secondary: {
-      main: purple[300],
-    },
-  },
-});
+import { lightTheme, darkTheme } from "./muiThemes";
+import { useDarkMode } from "./demo_components/hooks";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -74,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     [theme.breakpoints.up("sm")]: {
       marginLeft: "220px",
     },
@@ -85,7 +46,7 @@ export default function App() {
 
   const [activeProp, setActiveProp] = useState(0);
   const [demoSection, setDemoSection] = useState("NA");
-  const [darkMode, setDarkMode] = useState(false);
+  const [mode, setMode] = useDarkMode();
 
   const propsRef = useRef<HTMLDivElement | null>(null);
 
@@ -97,10 +58,10 @@ export default function App() {
     setActiveProp(index);
   };
 
-  const darkModeHandler = (darkMode: boolean) => {
-    setDarkMode(darkMode);
+  const modeHandler = (mode: string) => {
+    setMode(mode);
   };
-
+  //
   const clickHandler = (index: number, section: string) => {
     const node = refs[section];
     if (node && node.current) {
@@ -115,13 +76,13 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+    <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
       <CssBaseline />
       <NavBar
         active={activeProp}
         clickHandler={clickHandler}
-        setDarkMode={darkModeHandler}
-        darkMode={darkMode}
+        setMode={modeHandler}
+        mode={mode}
       />
       <main className={classes.content}>
         <Container maxWidth="md" style={{ height: "100%" }}>
@@ -130,10 +91,10 @@ export default function App() {
             <Demo
               activeHandler={activeHandler}
               clickSection={demoSection}
-              darkMode={darkMode}
+              mode={mode}
             />
             <Section ref={propsRef} index={2} activeHandler={activeHandler}>
-              <Props />
+              <Props/>
             </Section>
           </Paper>
         </Container>

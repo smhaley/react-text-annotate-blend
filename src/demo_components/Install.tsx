@@ -28,10 +28,10 @@ const useStyles = makeStyles((theme) => ({
 const installText = "npm i react-text-annotate-blend";
 
 interface Props {
-  darkMode: boolean;
+  mode: string;
 }
 
-const Install: React.FC<Props> = ({darkMode}) => {
+const Install: React.FC<Props> = ({mode}) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ const Install: React.FC<Props> = ({darkMode}) => {
         <Box>
           <SyntaxHighlighter
             language="javascript"
-            style={darkMode ? dracula : github}
+            style={mode==='dark' ?  dracula : github}
           >
             {`> ${installText}`}
           </SyntaxHighlighter>

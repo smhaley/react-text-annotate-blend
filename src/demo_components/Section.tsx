@@ -1,5 +1,5 @@
 import React, { useEffect, MutableRefObject } from "react";
-import useIntersectionObserver from "./useIntersectionObserver";
+import { useIntersectionObserver } from "./hooks";
 
 type Props = {
   children: React.ReactNode;

@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import useIntersectionObserver from "./useIntersectionObserver";
+import { useIntersectionObserver } from "./hooks";
 import Install from "./Install";
 import { TextAnnotateBlend } from "react-text-annotate-blend";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
@@ -143,14 +143,10 @@ const scope = { TextAnnotateBlend, init, Selector, Div, demoText };
 interface DemoProps {
   activeHandler: (index: number) => void;
   clickSection: string;
-  darkMode: boolean;
+  mode: string;
 }
 
-const Demo: React.FC<DemoProps> = ({
-  activeHandler,
-  clickSection,
-  darkMode,
-}) => {
+const Demo: React.FC<DemoProps> = ({ activeHandler, clickSection, mode }) => {
   const classes = useStyles();
 
   const demoRef = useRef<HTMLDivElement | null>(null);
@@ -191,7 +187,7 @@ const Demo: React.FC<DemoProps> = ({
       <Box pt={2}>
         <h3>TextAnnotateBlend</h3>
       </Box>
-      <Install darkMode={darkMode} />
+      <Install mode={mode} />
       <Box pl={2} mb={2}>
         Simply highlight to tag & click to untag
       </Box>
@@ -205,7 +201,7 @@ const Demo: React.FC<DemoProps> = ({
           </Box>
           <Box pb={3}>
             <Paper elevation={2} className={classes.liveCode}>
-              <LiveEditor theme={darkMode ? dracula : github} />
+              <LiveEditor theme={mode === "dark" ? dracula : github} />
               <Box className={classes.error}>
                 <LiveError />
               </Box>

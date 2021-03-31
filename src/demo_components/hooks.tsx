@@ -4,7 +4,7 @@ interface Args extends IntersectionObserverInit {
   freezeOnceVisible?: boolean;
 }
 
-function useIntersectionObserver(
+export const useIntersectionObserver = (
   elementRef: RefObject<Element>,
 
   {
@@ -12,7 +12,7 @@ function useIntersectionObserver(
     rootMargin = "-50% 0px -50% 0px",
     freezeOnceVisible = false,
   }: Args
-): IntersectionObserverEntry | undefined {
+): IntersectionObserverEntry | undefined => {
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
 
   const frozen = entry?.isIntersecting && freezeOnceVisible;
@@ -35,6 +35,16 @@ function useIntersectionObserver(
   }, [elementRef, threshold, rootMargin, frozen]);
 
   return entry;
-}
+};
 
-export default useIntersectionObserver;
+export const useDarkMode = () => {
+  const [value, setValue] = useState(
+    localStorage.getItem("colorMode") || "light"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("colorMode", value);
+  }, [value]);
+
+  return [value, setValue] as const;
+};
