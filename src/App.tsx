@@ -6,6 +6,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import { ThemeProvider } from "@material-ui/core";
+import Heading from "./demo_components/Heading";
 import Props from "./demo_components/Props";
 import Demo from "./demo_components/Demo";
 import Section from "./demo_components/Section";
@@ -87,14 +88,16 @@ export default function App() {
       <main className={classes.content}>
         <Container maxWidth="md" style={{ height: "100%" }}>
           <Toolbar />
+
           <Paper className={classes.main}>
+            <Heading mode={mode} />
             <Demo
               activeHandler={activeHandler}
               clickSection={demoSection}
               mode={mode}
             />
             <Section ref={propsRef} index={2} activeHandler={activeHandler}>
-              <Props/>
+              <Props />
             </Section>
           </Paper>
         </Container>

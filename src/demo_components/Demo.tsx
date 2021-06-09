@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-// import TextAnnotateBlend from "../components/TextAnnotateBlend";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,7 +6,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import { useIntersectionObserver } from "./hooks";
-import Install from "./Install";
 import { TextAnnotateBlend } from "react-text-annotate-blend";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import github from "prism-react-renderer/themes/github";
@@ -72,20 +70,19 @@ function App () {
 
     return (
       <>
-      <Div>
-        <TextAnnotateBlend
-          style={{
-            maxWidth: 500,
-            fontSize: "1.2rem",
-          }}
-          content={demoText}
-          onChange={handleChange}
-          value={value}
-          getSpan={(span) => ({
-            ...span,
-            tag: tag,
-            color: COLORS[tag],
-          })}
+        <Div>
+         <TextAnnotateBlend
+           style={{
+             fontSize: "1.2rem",
+           }}
+           content={demoText}
+           onChange={handleChange}
+           value={value}
+           getSpan={(span) => ({
+             ...span,
+             tag: tag,
+             color: COLORS[tag],
+           })}
         />
         </Div>
 
@@ -183,11 +180,10 @@ const Demo: React.FC<DemoProps> = ({ activeHandler, clickSection, mode }) => {
   }, [clickSection]);
 
   return (
-    <>
-      <Box pt={2}>
-        <h3>TextAnnotateBlend</h3>
+    <div>
+      <Box>
+        <h3>Live Demo</h3>
       </Box>
-      <Install mode={mode} />
       <Box pl={2} mb={2}>
         Simply highlight to tag & click to untag
       </Box>
@@ -209,7 +205,7 @@ const Demo: React.FC<DemoProps> = ({ activeHandler, clickSection, mode }) => {
           </Box>
         </div>
       </LiveProvider>
-    </>
+    </div>
   );
 };
 

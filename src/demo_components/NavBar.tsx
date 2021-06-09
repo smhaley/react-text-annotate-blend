@@ -88,6 +88,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
     heading: {
       color: "white",
+      [theme.breakpoints.down("xs")]: {
+        display: "none",
+      },
     },
   })
 );
@@ -112,6 +115,9 @@ const NavBar = (props: Props) => {
 
   const drawer = (
     <div>
+      <div>
+        <b> react-text-annotate-blend</b>
+      </div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
@@ -142,7 +148,9 @@ const NavBar = (props: Props) => {
       <CssBaseline />
       <AppBar
         position="fixed"
-        className={props.mode ==='dark' ? classes.appBarDark : classes.appBarLight}
+        className={
+          props.mode === "dark" ? classes.appBarDark : classes.appBarLight
+        }
       >
         <Toolbar>
           <IconButton
@@ -160,7 +168,7 @@ const NavBar = (props: Props) => {
           <div className={classes.titleBarIcons}>
             <IconButton
               onClick={() =>
-                props.setMode(props.mode === "dark" ? "light" : 'dark')
+                props.setMode(props.mode === "dark" ? "light" : "dark")
               }
               aria-label="Light mode"
             >
