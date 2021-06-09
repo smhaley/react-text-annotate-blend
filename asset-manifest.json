@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/react-text-annotate-blend/static/js/main.8a594ab5.chunk.js",
-    "main.js.map": "/react-text-annotate-blend/static/js/main.8a594ab5.chunk.js.map",
+    "main.js": "/react-text-annotate-blend/static/js/main.6e08cb4c.chunk.js",
+    "main.js.map": "/react-text-annotate-blend/static/js/main.6e08cb4c.chunk.js.map",
     "runtime-main.js": "/react-text-annotate-blend/static/js/runtime-main.55bd08b0.js",
     "runtime-main.js.map": "/react-text-annotate-blend/static/js/runtime-main.55bd08b0.js.map",
-    "static/js/2.3d2aea69.chunk.js": "/react-text-annotate-blend/static/js/2.3d2aea69.chunk.js",
-    "static/js/2.3d2aea69.chunk.js.map": "/react-text-annotate-blend/static/js/2.3d2aea69.chunk.js.map",
+    "static/js/2.3f52269f.chunk.js": "/react-text-annotate-blend/static/js/2.3f52269f.chunk.js",
+    "static/js/2.3f52269f.chunk.js.map": "/react-text-annotate-blend/static/js/2.3f52269f.chunk.js.map",
     "static/js/3.b9d2f189.chunk.js": "/react-text-annotate-blend/static/js/3.b9d2f189.chunk.js",
     "static/js/3.b9d2f189.chunk.js.map": "/react-text-annotate-blend/static/js/3.b9d2f189.chunk.js.map",
     "index.html": "/react-text-annotate-blend/index.html",
-    "static/js/2.3d2aea69.chunk.js.LICENSE.txt": "/react-text-annotate-blend/static/js/2.3d2aea69.chunk.js.LICENSE.txt"
+    "static/js/2.3f52269f.chunk.js.LICENSE.txt": "/react-text-annotate-blend/static/js/2.3f52269f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.55bd08b0.js",
-    "static/js/2.3d2aea69.chunk.js",
-    "static/js/main.8a594ab5.chunk.js"
+    "static/js/2.3f52269f.chunk.js",
+    "static/js/main.6e08cb4c.chunk.js"
   ]
 }
