@@ -11,7 +11,8 @@ declare type TextBaseProps<T> = {
     value: T[];
     onChange: (value: T[]) => any;
     getSpan?: (span: TextSpan) => T;
+    style?: React.CSSProperties;
 };
-declare type TextAnnotateBlendProps<T> = React.HTMLAttributes<HTMLDivElement> & TextBaseProps<T>;
+declare type TextAnnotateBlendProps<T> = TextBaseProps<T>;
 declare const TextAnnotateBlend: <T extends Span>(props: TextAnnotateBlendProps<T>) => JSX.Element;
 export default TextAnnotateBlend;

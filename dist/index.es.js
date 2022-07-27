@@ -1,10 +1,4 @@
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var React = require('react');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+import React from 'react';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -3041,15 +3035,15 @@ const blender = (tags) => {
 //remove rad on blend
 const Mark = (props) => {
     const lumin = props.color ? luminTest(props.color) : false;
-    return (React__default["default"].createElement("mark", { style: Object.assign({ backgroundColor: props.color || "#84d2ff", padding: "0 4px" }, (lumin && { color: "white" })), "data-start": props.start, "data-end": props.end, onMouseUp: () => props.onClick({ start: props.start, end: props.end }) },
+    return (React.createElement("mark", { style: Object.assign({ backgroundColor: props.color || "#84d2ff", padding: "0 4px" }, (lumin && { color: "white" })), "data-start": props.start, "data-end": props.end, onMouseUp: () => props.onClick({ start: props.start, end: props.end }) },
         props.content,
-        props.tag && (React__default["default"].createElement("span", { style: { fontSize: "0.7em", fontWeight: 500, marginLeft: 6 } }, props.tag))));
+        props.tag && (React.createElement("span", { style: { fontSize: "0.7em", fontWeight: 500, marginLeft: 6 } }, props.tag))));
 };
 
 const SplitTag = (props) => {
     if (props.mark)
-        return React__default["default"].createElement(Mark, Object.assign({}, props));
-    return (React__default["default"].createElement("span", { "data-start": props.start, "data-end": props.end, onClick: () => props.onClick({ start: props.start, end: props.end }) }, props.content));
+        return React.createElement(Mark, Object.assign({}, props));
+    return (React.createElement("span", { "data-start": props.start, "data-end": props.end, onClick: () => props.onClick({ start: props.start, end: props.end }) }, props.content));
 };
 
 const TextAnnotateBlend = (props) => {
@@ -3120,8 +3114,7 @@ const TextAnnotateBlend = (props) => {
     const { content, value, style } = props;
     const { tags } = blender(value);
     const splits = splitWithOffsets(content, tags);
-    return (React__default["default"].createElement("div", { style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React__default["default"].createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}` }, split, { onClick: handleSplitClick }))))));
+    return (React.createElement("div", { style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React.createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}` }, split, { onClick: handleSplitClick }))))));
 };
 
-exports.TextAnnotateBlend = TextAnnotateBlend;
-//# sourceMappingURL=index.js.map
+export { TextAnnotateBlend };
