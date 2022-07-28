@@ -30,10 +30,10 @@ type TextBaseProps<T> = {
   value: T[];
   onChange: (value: T[]) => any;
   getSpan?: (span: TextSpan) => T;
+  style?: React.CSSProperties;
 };
 
-type TextAnnotateBlendProps<T> = React.HTMLAttributes<HTMLDivElement> &
-  TextBaseProps<T>;
+type TextAnnotateBlendProps<T> = TextBaseProps<T>;
 
 const TextAnnotateBlend = <T extends Span>(props: TextAnnotateBlendProps<T>) => {
   const getSpan = (span: TextSpan): T => {
@@ -48,10 +48,10 @@ const TextAnnotateBlend = <T extends Span>(props: TextAnnotateBlendProps<T>) => 
     if (selection && selection.anchorNode && selection?.focusNode) {
       if (selectionIsEmpty(selection)) return;
 
-      let startBase = selection.anchorNode.parentElement?.getAttribute(
+      const startBase = selection.anchorNode.parentElement?.getAttribute(
         "data-start"
       );
-      let endBase = selection.focusNode.parentElement?.getAttribute(
+      const endBase = selection.focusNode.parentElement?.getAttribute(
         "data-start"
       );
       if (startBase == null || endBase == null) return;
@@ -133,7 +133,7 @@ const TextAnnotateBlend = <T extends Span>(props: TextAnnotateBlendProps<T>) => 
   const { content, value, style } = props;
   const { tags } = blender(value);
 
-  let splits = splitWithOffsets(content, tags);
+  const splits = splitWithOffsets(content, tags);
 
   return (
     <div style={style} onMouseUp={handleMouseUp}>
