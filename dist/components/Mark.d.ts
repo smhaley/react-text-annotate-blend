@@ -1,12 +1,15 @@
-import React from "react";
-export interface MarkProps {
+/// <reference types="react" />
+import { MarkedSpan } from "../types/annotate-types";
+export interface MarkProps<T> {
     key: string;
     content: string;
     start: number;
     end: number;
-    tag: string;
+    onClick: (arg: T) => void;
+    tag?: string;
     color?: string;
-    onClick: (arg0: any) => any;
+    className?: string;
+    index?: number;
 }
-declare const Mark: React.FC<MarkProps>;
+declare const Mark: <T extends MarkedSpan>({ color, className, end, start, onClick, content, tag, }: MarkProps<T>) => JSX.Element;
 export default Mark;

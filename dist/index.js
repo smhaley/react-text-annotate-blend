@@ -2707,7 +2707,7 @@ const blend = (colA, colB) => {
     let blend = rgbMean(a, b);
     return ("rgb(" + +blend.r + "," + +blend.g + "," + +blend.b + "," + +blend.a + ")");
 };
-const splitWithOffsets = (text, offsets) => {
+const splitWithOffsets = (text, offsets, strict) => {
     let lastEnd = 0;
     const splits = [];
     for (let offset of lodash_sortby(offsets, (o) => o.start)) {
@@ -2718,6 +2718,9 @@ const splitWithOffsets = (text, offsets) => {
                 end: start,
                 content: text.slice(lastEnd, start),
             });
+        }
+        if (strict && lastEnd > start) {
+            console.error("Overlapping tags are not valid with TextAnnotate and will lead to unexpected outcomes. Please check input data. Did you mean to use TextAnnotateBlend?");
         }
         splits.push(Object.assign(Object.assign({}, offset), { mark: true, content: text.slice(start, end) }));
         lastEnd = end;
@@ -2745,30 +2748,49 @@ const selectionIsBackwards = (selection) => {
         backward = true;
     return backward;
 };
-const tagTransformer = (value, onChange) => {
+const tagTransformer = (value, onChange, overlapLimit) => {
     if (value.length) {
-        const tags = [...value];
-        const newTag = tags.pop();
-        const newTagRange = range(newTag.start, newTag.end);
-        let overlap = 0;
-        tags.forEach((val) => {
-            const tagRange = range(val.start, val.end);
-            let tagOverlap = tagRange
-                .map((i) => {
-                return newTagRange.indexOf(i) >= 0;
-            })
-                .filter(Boolean).length;
-            if (tagOverlap >= 2) {
-                overlap += 1;
-            }
-        });
-        if (overlap < 2) {
+        const overlap = getOverlap$1(value);
+        if (overlap <= overlapLimit) {
             onChange(value);
         }
     }
     else {
         onChange(value);
     }
+};
+const getOverlap$1 = (value) => {
+    const tags = [...value];
+    const newTag = tags.pop();
+    let overlap = 0;
+    if (!newTag)
+        return overlap;
+    const newTagRange = range(newTag.start, newTag.end);
+    tags.forEach((val) => {
+        const tagRange = range(val.start, val.end);
+        let tagOverlap = tagRange
+            .map((i) => {
+            return newTagRange.indexOf(i) >= 0;
+        })
+            .filter(Boolean).length;
+        if (tagOverlap >= 2) {
+            overlap += 1;
+        }
+    });
+    return overlap;
+};
+
+const Mark = ({ color, className, end, start, onClick, content, tag, }) => {
+    const lumin = color ? luminTest(color) : false;
+    return (React__default["default"].createElement("mark", { className: className, style: Object.assign({ backgroundColor: color || "#84d2ff", padding: "0 4px" }, (lumin && { color: "white" })), "data-start": start, "data-end": end, onMouseUp: () => onClick({ start: start, end: end }) },
+        content,
+        tag && (React__default["default"].createElement("span", { style: { fontSize: "0.7em", fontWeight: 500, marginLeft: 6 } }, tag))));
+};
+
+const SplitTag = (props) => {
+    if (props.mark)
+        return React__default["default"].createElement(Mark, Object.assign({}, props));
+    return (React__default["default"].createElement("span", { "data-start": props.start, "data-end": props.end, onClick: () => props.onClick({ start: props.start, end: props.end }) }, props.content));
 };
 
 const isNumber = (val) => {
@@ -3037,91 +3059,103 @@ const blender = (tags) => {
         return { tags: currentTags, blendIndices: [] };
 };
 
-//TODO, props setting for tag value
-//remove rad on blend
-const Mark = (props) => {
-    const lumin = props.color ? luminTest(props.color) : false;
-    return (React__default["default"].createElement("mark", { style: Object.assign({ backgroundColor: props.color || "#84d2ff", padding: "0 4px" }, (lumin && { color: "white" })), "data-start": props.start, "data-end": props.end, onMouseUp: () => props.onClick({ start: props.start, end: props.end }) },
-        props.content,
-        props.tag && (React__default["default"].createElement("span", { style: { fontSize: "0.7em", fontWeight: 500, marginLeft: 6 } }, props.tag))));
-};
-
-const SplitTag = (props) => {
-    if (props.mark)
-        return React__default["default"].createElement(Mark, Object.assign({}, props));
-    return (React__default["default"].createElement("span", { "data-start": props.start, "data-end": props.end, onClick: () => props.onClick({ start: props.start, end: props.end }) }, props.content));
-};
-
-const TextAnnotateBlend = (props) => {
-    const getSpan = (span) => {
-        if (props.getSpan)
-            return props.getSpan(span);
-        return { start: span.start, end: span.end };
-    };
-    const handleMouseUp = () => {
-        var _a, _b, _c;
-        if (!props.onChange)
-            return;
-        const selection = window.getSelection();
-        if (selection && selection.anchorNode && (selection === null || selection === void 0 ? void 0 : selection.focusNode)) {
-            if (selectionIsEmpty(selection))
-                return;
-            const startBase = (_a = selection.anchorNode.parentElement) === null || _a === void 0 ? void 0 : _a.getAttribute("data-start");
-            const endBase = (_b = selection.focusNode.parentElement) === null || _b === void 0 ? void 0 : _b.getAttribute("data-start");
-            if (startBase == null || endBase == null)
-                return;
-            let start = parseInt(String(startBase), 10) + selection.anchorOffset;
-            let end = parseInt(String(endBase), 10) + selection.focusOffset;
-            if (selectionIsBackwards(selection)) {
-                [start, end] = [end, start];
-            }
-            tagTransformer([
-                ...props.value,
-                getSpan({ start, end, text: content.slice(start, end) }),
-            ], props.onChange);
-            (_c = window.getSelection()) === null || _c === void 0 ? void 0 : _c.empty();
-        }
-    };
-    const handleSplitClick = ({ start, end }) => {
-        const selection = window.getSelection();
-        let focusOffset = 0;
-        let anchorOffset = 0;
-        if (selection) {
-            focusOffset = selection.focusOffset;
-            anchorOffset = selection.anchorOffset;
-        }
-        if (focusOffset - anchorOffset !== 0) {
-            return;
-        }
+const generalSplitClick = (split, value, isBlendable, onChange) => {
+    if (!onChange)
+        return;
+    const { start, end } = split;
+    const selection = window.getSelection();
+    let focusOffset = 0;
+    let anchorOffset = 0;
+    if (selection) {
+        focusOffset = selection.focusOffset;
+        anchorOffset = selection.anchorOffset;
+    }
+    if (focusOffset - anchorOffset !== 0) {
+        return;
+    }
+    const currentTags = lodash_sortby(value, ["start"]);
+    const overLapLimit = isBlendable ? 1 : 0;
+    const splitIndex = currentTags.findIndex((s) => s.start === start && s.end === end);
+    if (splitIndex >= 0) {
+        tagTransformer([
+            ...currentTags.slice(0, splitIndex),
+            ...currentTags.slice(splitIndex + 1),
+        ], onChange, overLapLimit);
+    }
+    if (isBlendable) {
         const { blendIndices } = blender(value);
-        const currentTags = lodash_sortby(props.value, ["start"]);
         const frontOverlapIndex = currentTags.findIndex((tag, index) => tag.start === start && blendIndices.includes(index));
         const rearOverlapIndex = currentTags.findIndex((tag, index) => tag.end === end && blendIndices.includes(index));
-        const splitIndex = currentTags.findIndex((s) => s.start === start && s.end === end);
-        if (splitIndex >= 0) {
-            tagTransformer([
-                ...currentTags.slice(0, splitIndex),
-                ...currentTags.slice(splitIndex + 1),
-            ], props.onChange);
-        }
-        else if (frontOverlapIndex >= 0) {
+        if (frontOverlapIndex >= 0) {
             tagTransformer([
                 ...currentTags.slice(0, frontOverlapIndex),
                 ...currentTags.slice(frontOverlapIndex + 1),
-            ], props.onChange);
+            ], onChange, overLapLimit);
         }
         else if (rearOverlapIndex >= 0) {
             tagTransformer([
                 ...currentTags.slice(0, rearOverlapIndex),
                 ...currentTags.slice(rearOverlapIndex + 1),
-            ], props.onChange);
+            ], onChange, overLapLimit);
         }
-    };
-    const { content, value, style } = props;
-    const { tags } = blender(value);
-    const splits = splitWithOffsets(content, tags);
-    return (React__default["default"].createElement("div", { style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React__default["default"].createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}` }, split, { onClick: handleSplitClick }))))));
+    }
+};
+const generalHandleMouseUp = (content, value, isBlendable, getSpan, onChange) => {
+    var _a, _b, _c;
+    if (!onChange)
+        return;
+    const selection = window.getSelection();
+    if (selection && selection.anchorNode && (selection === null || selection === void 0 ? void 0 : selection.focusNode)) {
+        if (selectionIsEmpty(selection))
+            return;
+        const startBase = (_a = selection.anchorNode.parentElement) === null || _a === void 0 ? void 0 : _a.getAttribute("data-start");
+        const endBase = (_b = selection.focusNode.parentElement) === null || _b === void 0 ? void 0 : _b.getAttribute("data-start");
+        if (startBase == null || endBase == null)
+            return;
+        let start = parseInt(String(startBase), 10) + selection.anchorOffset;
+        let end = parseInt(String(endBase), 10) + selection.focusOffset;
+        if (selectionIsBackwards(selection)) {
+            [start, end] = [end, start];
+        }
+        const overLapLimit = isBlendable ? 1 : 0;
+        tagTransformer([...value, getSpan({ start, end, text: content.slice(start, end) })], onChange, overLapLimit);
+        (_c = window.getSelection()) === null || _c === void 0 ? void 0 : _c.empty();
+    }
+};
+const generateSplits = (content, value, isBlendable) => {
+    if (isBlendable) {
+        const { tags } = blender(value);
+        return splitWithOffsets(content, tags);
+    }
+    return splitWithOffsets(content, value, true);
 };
 
-exports.TextAnnotateBlend = TextAnnotateBlend;
+const TextAnnotator = ({ content, value, isBlendable, onChange, getSpan, style, className, }) => {
+    const annotateGetSpan = (span) => {
+        if (getSpan)
+            return getSpan(span);
+        return { start: span.start, end: span.end };
+    };
+    const decoratedMouseUp = () => {
+        return () => generalHandleMouseUp(content, value, isBlendable, annotateGetSpan, onChange);
+    };
+    const decoratedHandleSplitClick = () => {
+        return (split) => generalSplitClick(split, value, isBlendable, onChange);
+    };
+    const handleMouseUp = decoratedMouseUp();
+    const handleSplitClick = decoratedHandleSplitClick();
+    const splits = generateSplits(content, value, isBlendable);
+    return (React__default["default"].createElement("div", { className: className, style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React__default["default"].createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}` }, split, { onClick: handleSplitClick }))))));
+};
+
+const TextAnnotate$1 = (props) => {
+    return React__default["default"].createElement(TextAnnotator, Object.assign({ isBlendable: true }, props));
+};
+
+const TextAnnotate = (props) => {
+    return React__default["default"].createElement(TextAnnotator, Object.assign({ isBlendable: false }, props));
+};
+
+exports.TextAnnotate = TextAnnotate;
+exports.TextAnnotateBlend = TextAnnotate$1;
 //# sourceMappingURL=index.js.map

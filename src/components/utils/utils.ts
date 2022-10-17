@@ -1,4 +1,5 @@
 import sortBy from "lodash.sortby";
+import { MarkedSpan, Span } from "../../types/annotate-types";
 
 export const range = (start: number, end: number, length = end - start + 1) =>
   Array.from({ length }, (_, i) => start + i);
@@ -84,7 +85,46 @@ export const blend = (colA: string, colB: string) => {
   );
 };
 
-export const splitWithOffsets = (
+export const splitWithOffsets = <T extends Span>(
+  text: string,
+  offsets: T[],
+  strict?: boolean
+): MarkedSpan[] => {
+  let lastEnd = 0;
+  const splits = [];
+
+  for (let offset of sortBy(offsets, (o) => o.start)) {
+    const { start, end } = offset;
+    if (lastEnd < start) {
+      splits.push({
+        start: lastEnd,
+        end: start,
+        content: text.slice(lastEnd, start),
+      });
+    }
+    if (strict && lastEnd > start) {
+      console.error(
+        "Overlapping tags are not valid with TextAnnotate and will lead to unexpected outcomes. Please check input data. Did you mean to use TextAnnotateBlend?"
+      );
+    }
+    splits.push({
+      ...offset,
+      mark: true,
+      content: text.slice(start, end),
+    });
+    lastEnd = end;
+  }
+  if (lastEnd < text.length) {
+    splits.push({
+      start: lastEnd,
+      end: text.length,
+      content: text.slice(lastEnd, text.length),
+    });
+  }
+  return splits;
+};
+
+export const strictSplitWithOffsets = (
   text: string,
   offsets: { start: number; end: number }[]
 ) => {
@@ -140,34 +180,42 @@ export const selectionIsBackwards = (selection: Selection) => {
   return backward;
 };
 
-export const tagTransformer = (value: any, onChange: (value: []) => any) => {
-
+export const tagTransformer = <T extends Span>(
+  value: T[],
+  onChange: (value: T[]) => T,
+  overlapLimit: number
+) => {
   if (value.length) {
-    const tags = [...value];
-    const newTag = tags.pop();
-    const newTagRange = range(newTag.start, newTag.end);
-
-    let overlap = 0;
-
-    tags.forEach((val) => {
-            
-      const tagRange = range(val.start, val.end);
-
-      let tagOverlap = tagRange
-        .map((i: number) => {
-          return newTagRange.indexOf(i) >= 0;
-        })
-        .filter(Boolean).length;
-
-      if (tagOverlap >= 2) {
-        overlap += 1;
-      }
-    });
-
-    if (overlap < 2) {
+    const overlap = getOverlap(value);
+    if (overlap <= overlapLimit) {
       onChange(value);
     }
   } else {
     onChange(value);
   }
+};
+
+export const getOverlap = <T extends Span>(value: T[]) => {
+  const tags = [...value];
+  const newTag = tags.pop();
+  let overlap = 0;
+
+  if (!newTag) return overlap;
+
+  const newTagRange = range(newTag.start, newTag.end);
+
+  tags.forEach((val) => {
+    const tagRange = range(val.start, val.end);
+
+    let tagOverlap = tagRange
+      .map((i: number) => {
+        return newTagRange.indexOf(i) >= 0;
+      })
+      .filter(Boolean).length;
+
+    if (tagOverlap >= 2) {
+      overlap += 1;
+    }
+  });
+  return overlap;
 };
