@@ -104,7 +104,7 @@ export const splitWithOffsets = <T extends Span>(
     }
     if (strict && lastEnd > start) {
       console.error(
-        "Overlapping tags are not valid with TextAnnotate and will lead to unexpected outcomes. Please check input data. Did you mean to use TextAnnotateBlend?"
+        "Overlapping tags are not valid with TextAnnotate and will lead to unexpected outcomes. Please check input data. Did you intend to use TextAnnotateBlend?"
       );
     }
     splits.push({

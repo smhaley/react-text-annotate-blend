@@ -21,8 +21,8 @@ declare type TextAnnotateProps<T> = {
     style?: React.CSSProperties;
     className?: string;
 };
-declare const TextAnnotate$1: <T extends AnnotateTag>(props: TextAnnotateProps<T>) => JSX.Element;
+declare const TextAnnotate: <T extends AnnotateTag>(props: TextAnnotateProps<T>) => JSX.Element;
 
-declare const TextAnnotate: <T extends AnnotateBlendTag>(props: TextAnnotateProps<T>) => JSX.Element;
+declare const TextAnnotateBlend: <T extends AnnotateBlendTag>(props: TextAnnotateProps<T>) => JSX.Element;
 
-export { AnnotateBlendTag, AnnotateTag, TextAnnotate$1 as TextAnnotate, TextAnnotate as TextAnnotateBlend };
+export { AnnotateBlendTag, AnnotateTag, TextAnnotate, TextAnnotateBlend };

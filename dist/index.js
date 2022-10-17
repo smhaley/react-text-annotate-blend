@@ -2720,7 +2720,7 @@ const splitWithOffsets = (text, offsets, strict) => {
             });
         }
         if (strict && lastEnd > start) {
-            console.error("Overlapping tags are not valid with TextAnnotate and will lead to unexpected outcomes. Please check input data. Did you mean to use TextAnnotateBlend?");
+            console.error("Overlapping tags are not valid with TextAnnotate and will lead to unexpected outcomes. Please check input data. Did you intend to use TextAnnotateBlend?");
         }
         splits.push(Object.assign(Object.assign({}, offset), { mark: true, content: text.slice(start, end) }));
         lastEnd = end;
@@ -3148,7 +3148,7 @@ const TextAnnotator = ({ content, value, isBlendable, onChange, getSpan, style, 
     return (React__default["default"].createElement("div", { className: className, style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React__default["default"].createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}` }, split, { onClick: handleSplitClick }))))));
 };
 
-const TextAnnotate$1 = (props) => {
+const TextAnnotateBlend = (props) => {
     return React__default["default"].createElement(TextAnnotator, Object.assign({ isBlendable: true }, props));
 };
 
@@ -3157,5 +3157,5 @@ const TextAnnotate = (props) => {
 };
 
 exports.TextAnnotate = TextAnnotate;
-exports.TextAnnotateBlend = TextAnnotate$1;
+exports.TextAnnotateBlend = TextAnnotateBlend;
 //# sourceMappingURL=index.js.map
