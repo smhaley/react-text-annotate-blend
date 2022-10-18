@@ -1,3 +1,4 @@
+import { MarkedSpan, Span } from "../../types/annotate-types";
 export declare const range: (start: number, end: number, length?: number) => number[];
 export declare const hexToRGB: (col: string) => {
     r: number;
@@ -13,7 +14,8 @@ export declare const rgbParse: (col: string) => {
 };
 export declare const luminTest: (col: string) => boolean;
 export declare const blend: (colA: string, colB: string) => string;
-export declare const splitWithOffsets: (text: string, offsets: {
+export declare const splitWithOffsets: <T extends Span>(text: string, offsets: T[], strict?: boolean | undefined) => MarkedSpan[];
+export declare const strictSplitWithOffsets: (text: string, offsets: {
     start: number;
     end: number;
 }[]) => ({
@@ -28,4 +30,5 @@ export declare const splitWithOffsets: (text: string, offsets: {
 })[];
 export declare const selectionIsEmpty: (selection: Selection) => boolean;
 export declare const selectionIsBackwards: (selection: Selection) => boolean;
-export declare const tagTransformer: (value: any, onChange: (value: []) => any) => void;
+export declare const tagTransformer: <T extends Span>(value: T[], onChange: (value: T[]) => void, overlapLimit: number) => void;
+export declare const getOverlap: <T extends Span>(value: T[]) => number;

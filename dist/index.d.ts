@@ -1,20 +1,28 @@
 import React from 'react';
 
-interface TextSpan extends Span {
-    text: string;
-}
 declare type Span = {
     start: number;
     end: number;
+    text?: string;
+    color?: string;
+    tag?: string;
 };
-declare type TextBaseProps<T> = {
+interface AnnotateTag extends Span {
+    className?: string;
+}
+interface AnnotateBlendTag extends Span {
+}
+
+declare type TextAnnotateProps<T> = {
     content: string;
     value: T[];
-    onChange: (value: T[]) => any;
-    getSpan?: (span: TextSpan) => T;
+    onChange?: (value: T[]) => void;
+    getSpan?: (span: T) => T;
     style?: React.CSSProperties;
+    className?: string;
 };
-declare type TextAnnotateBlendProps<T> = TextBaseProps<T>;
-declare const TextAnnotateBlend: <T extends Span>(props: TextAnnotateBlendProps<T>) => JSX.Element;
+declare const TextAnnotate: <T extends AnnotateTag>(props: TextAnnotateProps<T>) => JSX.Element;
 
-export { TextAnnotateBlend };
+declare const TextAnnotateBlend: <T extends AnnotateBlendTag>(props: TextAnnotateProps<T>) => JSX.Element;
+
+export { AnnotateBlendTag, AnnotateTag, TextAnnotate, TextAnnotateBlend };

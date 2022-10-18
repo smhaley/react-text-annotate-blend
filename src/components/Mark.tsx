@@ -1,38 +1,45 @@
 import React from "react";
 import { luminTest } from "./utils/utils";
+import { MarkedSpan } from "../types/annotate-types";
 
-export interface MarkProps {
+export interface MarkProps<T> {
   key: string;
   content: string;
   start: number;
   end: number;
-  tag: string;
+  onClick: (arg: T) => void;
+  tag?: string;
   color?: string;
-  onClick: (arg0: any) => any;
+  className?: string;
+  index?: number;
 }
 
-//TODO, props setting for tag value
-//remove rad on blend
-
-const Mark: React.FC<MarkProps> = (props) => {
-  const lumin = props.color ? luminTest(props.color) : false;
-
+const Mark = <T extends MarkedSpan>({
+  color,
+  className,
+  end,
+  start,
+  onClick,
+  content,
+  tag,
+}: MarkProps<T>) => {
+  const lumin = color ? luminTest(color) : false;
   return (
     <mark
+      className={className}
       style={{
-        backgroundColor: props.color || "#84d2ff",
+        backgroundColor: color || "#84d2ff",
         padding: "0 4px",
         ...(lumin && { color: "white" }),
-        // borderRadius: props.tag ? "3px" : "0px",
       }}
-      data-start={props.start}
-      data-end={props.end}
-      onMouseUp={() => props.onClick({ start: props.start, end: props.end })}
+      data-start={start}
+      data-end={end}
+      onMouseUp={() => onClick({ start: start, end: end } as T)}
     >
-      {props.content}
-      {props.tag && (
+      {content}
+      {tag && (
         <span style={{ fontSize: "0.7em", fontWeight: 500, marginLeft: 6 }}>
-          {props.tag}
+          {tag}
         </span>
       )}
     </mark>
