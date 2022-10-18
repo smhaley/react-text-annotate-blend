@@ -1,19 +1,11 @@
 import React from "react";
-import { TextAnnotateBlend } from "react-text-annotate-blend";
+import { TextAnnotate, AnnotateTag } from "react-text-annotate-blend";
 
 /*
-Stateful example with typescript.
+Stateful example with blended tags not allowed
 */
 
-interface Tag {
-  start: number;
-  end: number;
-  text: string;
-  tag: string;
-  color: string;
-}
-
-const init = [
+const init: AnnotateTag[] = [
   {
     start: 10,
     end: 22,
@@ -51,7 +43,7 @@ function StatefulBlend() {
   const [value, setValue] = React.useState(init);
   const [tag, setTag] = React.useState("tagA");
 
-  const handleChange = (value: Tag[]) => {
+  const handleChange = (value: AnnotateTag[]) => {
     setValue(value);
   };
 
@@ -64,7 +56,7 @@ function StatefulBlend() {
   return (
     <div style={{ padding: 20 }}>
       <div>
-        <TextAnnotateBlend
+        <TextAnnotate
           style={{
             fontSize: "1.2rem",
           }}

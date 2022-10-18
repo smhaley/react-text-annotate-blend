@@ -12,7 +12,7 @@ export const generalSplitClick = <T extends Span>(
   split: Span,
   value: T[],
   isBlendable: boolean,
-  onChange?: (value: T[]) => T
+  onChange?: (value: T[]) => void
 ) => {
   if (!onChange) return;
 
@@ -87,7 +87,7 @@ export const generalHandleMouseUp = <T extends Span>(
   value: T[],
   isBlendable: boolean,
   getSpan: (span: T) => T,
-  onChange?: (value: T[]) => T
+  onChange?: (value: T[]) => void
 ) => {
   if (!onChange) return;
 

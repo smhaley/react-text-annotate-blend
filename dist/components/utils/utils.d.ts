@@ -30,5 +30,5 @@ export declare const strictSplitWithOffsets: (text: string, offsets: {
 })[];
 export declare const selectionIsEmpty: (selection: Selection) => boolean;
 export declare const selectionIsBackwards: (selection: Selection) => boolean;
-export declare const tagTransformer: <T extends Span>(value: T[], onChange: (value: T[]) => T, overlapLimit: number) => void;
+export declare const tagTransformer: <T extends Span>(value: T[], onChange: (value: T[]) => void, overlapLimit: number) => void;
 export declare const getOverlap: <T extends Span>(value: T[]) => number;

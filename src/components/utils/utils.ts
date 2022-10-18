@@ -182,7 +182,7 @@ export const selectionIsBackwards = (selection: Selection) => {
 
 export const tagTransformer = <T extends Span>(
   value: T[],
-  onChange: (value: T[]) => T,
+  onChange: (value: T[]) => void,
   overlapLimit: number
 ) => {
   if (value.length) {
