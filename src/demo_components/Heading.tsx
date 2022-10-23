@@ -36,7 +36,11 @@ const Heading: React.FC<DemoProps> = ({ mode }) => {
         <h3>TextAnnotateBlend</h3>
       </Box>
       <Box p={2} className={classes.heading}>
-        A React component for interactive, blended text annotations.
+        A React component library for interactive text annotation with full
+        support for blended text annotations.
+      </Box>
+      <Box p={2} className={classes.heading}>
+        This library currently contains two component, TextAnnotateBlend and TextAnnotate.
       </Box>
       <Box pl={2}>
         <Install mode={mode} />

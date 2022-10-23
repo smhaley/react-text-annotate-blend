@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
+import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import { ThemeProvider } from "@material-ui/core";
 import Heading from "./demo_components/Heading";
@@ -12,6 +13,8 @@ import Demo from "./demo_components/Demo";
 import Section from "./demo_components/Section";
 import { lightTheme, darkTheme } from "./muiThemes";
 import { useDarkMode } from "./demo_components/hooks";
+import { annotateDemo, blendDemo } from "./demo_components/content/demo";
+import { blendInit } from "./demo_components/content/demo";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -88,16 +91,16 @@ export default function App() {
       <main className={classes.content}>
         <Container maxWidth="md" style={{ height: "100%" }}>
           <Toolbar />
-
           <Paper className={classes.main}>
             <Heading mode={mode} />
+            <Divider />
             <Demo
               activeHandler={activeHandler}
               clickSection={demoSection}
               mode={mode}
             />
             <Section ref={propsRef} index={2} activeHandler={activeHandler}>
-              <Props />
+              <Props mode={mode} />
             </Section>
           </Paper>
         </Container>

@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
+import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -82,8 +83,13 @@ const useStyles = makeStyles((theme: Theme) =>
     titleBarIcons: {
       marginLeft: "auto",
     },
+
     activeText: {
       color: theme.palette.secondary.main,
+    },
+
+    activeHeadText: {
+      color: theme.palette.primary.main,
     },
 
     heading: {
@@ -91,6 +97,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down("xs")]: {
         display: "none",
       },
+    },
+    componentHead: {
+      fontFamily: "Lucida Console, Courier New, monospace",
     },
   })
 );
@@ -113,30 +122,58 @@ const NavBar = (props: Props) => {
     setMobileOpen(!mobileOpen);
   };
 
+  const textAnnotateBlendOptions = ["TextAnnotateBlend", "Live Code", "Props"];
+  const textAnnotateOptions = ["TextAnnotate", "Live Code", "Props"];
+
+  console.log(active);
   const drawer = (
     <div>
       <div>
         <b> react-text-annotate-blend</b>
       </div>
       <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        {["TextAnnotateBlend", "Live Code", "Props"].map((text, index) => (
-          <ListItem
-            button
-            style={{ backgroundColor: "transparent" }}
-            key={text}
-            onClick={() => clickHandler(index, text)}
-          >
-            {active === index ? (
-              <strong className={classes.activeText}>{text}</strong>
-            ) : (
-              <strong>{text}</strong>
-            )}
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
+      <Box pb={2}>
+        <b className={`${classes.componentHead} ${classes.activeHeadText}`}>{`<TextAnnotateBlend/>`}</b>
+        <Divider />
+        <List>
+          {textAnnotateBlendOptions.map((text, index) => (
+            <ListItem
+              button
+              style={{ backgroundColor: "transparent" }}
+              key={text}
+              onClick={() => clickHandler(index, text)}
+            >
+              {active === index ? (
+                <strong className={classes.activeText}>{text}</strong>
+              ) : (
+                <strong>{text}</strong>
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Box>
+      <Box mt={2}>
+        <b className={classes.componentHead}>{`<TextAnnotate/>`}</b>
+        <Divider />
+        <List>
+          {textAnnotateOptions.map((text, index) => (
+            <ListItem
+              button
+              style={{ backgroundColor: "transparent" }}
+              key={text}
+              onClick={() => clickHandler(index, text)}
+            >
+              {active === index ? (
+                <strong className={classes.activeText}>{text}</strong>
+              ) : (
+                <strong>{text}</strong>
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Box>
     </div>
   );
 
