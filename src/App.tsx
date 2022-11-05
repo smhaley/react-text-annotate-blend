@@ -13,8 +13,10 @@ import Demo from "./demo_components/Demo";
 import Section from "./demo_components/Section";
 import { lightTheme, darkTheme } from "./muiThemes";
 import { useDarkMode } from "./demo_components/hooks";
+import AnnotateDemo from "./demo_components/AnnotateDemo";
 import { annotateDemo, blendDemo } from "./demo_components/content/demo";
 import { blendInit } from "./demo_components/content/demo";
+import * as Sections from "./constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -48,18 +50,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function App() {
   const classes = useStyles();
 
-  const [activeProp, setActiveProp] = useState(0);
+  const [activeProp, setActiveProp] = useState(Sections.BLEND_DEMO);
   const [demoSection, setDemoSection] = useState("NA");
+  const [activeDemoSection, setActiveDemoSection] = useState("");
   const [mode, setMode] = useDarkMode();
 
-  const propsRef = useRef<HTMLDivElement | null>(null);
-
   const refs = {
-    Props: propsRef,
+    [Sections.BLEND_DEMO]: useRef<HTMLDivElement | null>(null),
+    [Sections.BLEND_LIVE]: useRef<HTMLDivElement | null>(null),
+    [Sections.BLEND_PROPS]: useRef<HTMLDivElement | null>(null),
+    [Sections.TAG_DEMO]: useRef<HTMLDivElement | null>(null),
+    [Sections.TAG_LIVE]: useRef<HTMLDivElement | null>(null),
+    [Sections.TAG_PROPS]: useRef<HTMLDivElement | null>(null),
   };
 
-  const activeHandler = (index: number) => {
-    setActiveProp(index);
+  const activeHandler = (sectionName: string) => {
+    //active section
+    setActiveProp(sectionName);
   };
 
   const modeHandler = (mode: string) => {
@@ -67,6 +74,7 @@ export default function App() {
   };
   //
   const clickHandler = (index: number, section: string) => {
+    //scrolls to a section
     const node = refs[section];
     if (node && node.current) {
       node.current.scrollIntoView({
@@ -77,16 +85,18 @@ export default function App() {
     } else {
       setDemoSection(section);
     }
+    setActiveDemoSection(section);
   };
 
   return (
     <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
       <CssBaseline />
       <NavBar
-        active={activeProp}
+        // active={activeProp}
         clickHandler={clickHandler}
         setMode={modeHandler}
         mode={mode}
+        activeSection={activeProp}
       />
       <main className={classes.content}>
         <Container maxWidth="md" style={{ height: "100%" }}>
@@ -98,8 +108,34 @@ export default function App() {
               activeHandler={activeHandler}
               clickSection={demoSection}
               mode={mode}
+              sectionRefs={{
+                live: refs[Sections.BLEND_LIVE],
+                demo: refs[Sections.BLEND_DEMO],
+              }}
+              sectionNames = {{
+                live: Sections.BLEND_LIVE,
+                demo: Sections.BLEND_DEMO,
+              }}
             />
-            <Section ref={propsRef} index={2} activeHandler={activeHandler}>
+            <Section
+              ref={refs[Sections.BLEND_PROPS]}
+              // index={2}
+              sectionName = {Sections.BLEND_PROPS}
+              activeHandler={activeHandler}
+            >
+              <Props mode={mode} />
+            </Section>
+            <AnnotateDemo
+              activeHandler={activeHandler}
+              clickSection={demoSection}
+              mode={mode}
+            />
+            <Section
+              ref={refs[Sections.TAG_PROPS]}
+              // index={5}
+              sectionName = {Sections.TAG_PROPS}
+              activeHandler={activeHandler}
+            >
               <Props mode={mode} />
             </Section>
           </Paper>

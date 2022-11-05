@@ -15,6 +15,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Typography from "@material-ui/core/Typography";
 import BrightnessIcon from "@material-ui/icons/Brightness7";
+import { labelBySection } from "../constants";
 import {
   makeStyles,
   useTheme,
@@ -107,25 +108,27 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   mode: string;
   setMode: (mode: string) => void;
-  active: number;
+  // active: number;
+  activeSection: string;
   clickHandler: (index: number, section: string) => void;
   window?: () => Window;
 }
 
 const NavBar = (props: Props) => {
-  const { window, active, clickHandler } = props;
+  const { window, clickHandler, activeSection } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  console.log('Nav Bar', props.activeSection);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const textAnnotateBlendOptions = ["TextAnnotateBlend", "Live Code", "Props"];
-  const textAnnotateOptions = ["TextAnnotate", "Live Code", "Props"];
+  const textAnnotateBlendOptions = Object.keys(labelBySection.blend);
+  const textAnnotateOptions = Object.keys(labelBySection.tag);
 
-  console.log(active);
+  console.log(activeSection);
   const drawer = (
     <div>
       <div>
@@ -133,7 +136,11 @@ const NavBar = (props: Props) => {
       </div>
       <div className={classes.toolbar} />
       <Box pb={2}>
-        <b className={`${classes.componentHead} ${classes.activeHeadText}`}>{`<TextAnnotateBlend/>`}</b>
+        <b
+          className={`${classes.componentHead} ${
+            textAnnotateBlendOptions.includes(activeSection) && classes.activeHeadText
+          }`}
+        >{`<TextAnnotateBlend/>`}</b>
         <Divider />
         <List>
           {textAnnotateBlendOptions.map((text, index) => (
@@ -143,10 +150,10 @@ const NavBar = (props: Props) => {
               key={text}
               onClick={() => clickHandler(index, text)}
             >
-              {active === index ? (
-                <strong className={classes.activeText}>{text}</strong>
+              {activeSection === text ? (
+                <strong className={classes.activeText}>{Object.values(labelBySection.blend[text])}</strong>
               ) : (
-                <strong>{text}</strong>
+                <strong>{Object.values(labelBySection.blend[text])}</strong>
               )}
             </ListItem>
           ))}
@@ -154,7 +161,11 @@ const NavBar = (props: Props) => {
         <Divider />
       </Box>
       <Box mt={2}>
-        <b className={classes.componentHead}>{`<TextAnnotate/>`}</b>
+        <b
+          className={`${classes.componentHead} ${
+            textAnnotateOptions.includes(activeSection) ? classes.activeHeadText : undefined
+          }`}
+        >{`<TextAnnotate/>`}</b>
         <Divider />
         <List>
           {textAnnotateOptions.map((text, index) => (
@@ -164,10 +175,10 @@ const NavBar = (props: Props) => {
               key={text}
               onClick={() => clickHandler(index, text)}
             >
-              {active === index ? (
-                <strong className={classes.activeText}>{text}</strong>
+              {activeSection === text ? (
+                <strong className={classes.activeText}>{Object.values(labelBySection.tag[text])}</strong>
               ) : (
-                <strong>{text}</strong>
+                <strong>{Object.values(labelBySection.tag[text])}</strong>
               )}
             </ListItem>
           ))}

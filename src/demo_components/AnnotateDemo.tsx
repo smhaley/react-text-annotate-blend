@@ -12,37 +12,55 @@ import { blendInit as init } from "./content/demo";
 import Selector from "./demo/Selector";
 import Div from "./demo/Div";
 import { blendDemo as blendSrc } from "./content/demo";
-import Section from "./Section";
+import { TAG_DEMO, TAG_LIVE } from "../constants";
 
 const scope = { TextAnnotateBlend, init, Selector, Div, demoText };
 
 interface DemoProps {
-  activeHandler: (sectionName: string) => void;
+  activeHandler: (activeSection: string) => void;
   clickSection: string;
   mode: string;
-  sectionRefs: {
-    demo:  React.MutableRefObject<HTMLDivElement | null>;
-    live:  React.MutableRefObject<HTMLDivElement | null>;
-  }
-  sectionNames: 
-    {
-      demo:  string;
-      live:  string;
-    }
-
 }
 
-const Demo: React.FC<DemoProps> = ({
-  activeHandler,
-  // clickSection,
-  mode,
-  sectionRefs,
-  sectionNames
-}) => {
+const Demo: React.FC<DemoProps> = ({ activeHandler, clickSection, mode }) => {
   const classes = useStyles();
+
+  const demoRef = useRef<HTMLDivElement | null>(null);
+  const codeRef = useRef<HTMLDivElement | null>(null);
+
+  const refs = {
+    TextAnnotateBlend: demoRef,
+    "Live Code": codeRef,
+  };
+
+  const demoEntry = useIntersectionObserver(demoRef, {});
+  const codeEntry = useIntersectionObserver(codeRef, {});
+
+  useEffect(() => {
+    const demoVisible = !!demoEntry?.isIntersecting;
+    const codeVisible = !!codeEntry?.isIntersecting;
+    if (demoVisible) {
+      activeHandler(TAG_DEMO);
+    }
+    if (codeVisible) {
+      activeHandler(TAG_LIVE);
+    }
+  }, [demoEntry, codeEntry, activeHandler]);
+
+  useEffect(() => {
+    const node = refs[clickSection];
+    if (node && node.current) {
+      node.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clickSection]);
 
   return (
     <div>
+        <div ref={demoRef}>
       <Box>
         <h3>Live Demo - Text Annotate Blend</h3>
       </Box>
@@ -51,10 +69,10 @@ const Demo: React.FC<DemoProps> = ({
         <p>To create a blend, overlap an existing tag.</p>
       </Box>
       <LiveProvider code={blendSrc} scope={scope}>
-        <Section ref={sectionRefs.demo} sectionName = {sectionNames.demo} activeHandler={activeHandler}>
+        <div >
           <LivePreview />
-        </Section>
-        <Section ref={sectionRefs.live} sectionName = {sectionNames.live} activeHandler={activeHandler}>
+        </div>
+        <div ref={codeRef}>
           <Box pt={4}>
             <h3>Live Code</h3>
           </Box>
@@ -66,8 +84,9 @@ const Demo: React.FC<DemoProps> = ({
               </Box>
             </Paper>
           </Box>
-        </Section>
+        </div>
       </LiveProvider>
+      </div>
     </div>
   );
 };

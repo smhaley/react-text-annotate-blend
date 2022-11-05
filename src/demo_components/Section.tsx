@@ -3,12 +3,13 @@ import { useIntersectionObserver } from "./hooks";
 
 type Props = {
   children: React.ReactNode;
-  index: number;
-  activeHandler: (index: number) => void;
+  // index: number;
+  sectionName: string;
+  activeHandler: (sectionName: string) => void;
 };
 
 const Section = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { activeHandler, index, children } = props;
+  const { activeHandler, sectionName, children } = props;
 
   const node = ref as MutableRefObject<HTMLDivElement>;
 
@@ -21,11 +22,12 @@ const Section = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   useEffect(() => {
     const isVisible = !!entry?.isIntersecting;
     if (isVisible) {
-      activeHandler(index);
+      console.log(sectionName)
+      activeHandler(sectionName);
     }
-  }, [entry, index, activeHandler]);
+  }, [entry, sectionName, activeHandler]);
 
-  return <div ref={node}>{children}</div>;
+  return <div ref={node} style = {{background: 'pink'}}>{children}</div>;
 });
 
 export default Section;
