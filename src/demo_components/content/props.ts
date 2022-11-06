@@ -1,4 +1,4 @@
-export const ANNOTATE_TYPE = "AnnotateTagType";
+export const TAG_TYPE = "AnnotateTagType";
 export const BLEND_TYPE = "AnnotateBlendTagType";
 
 export const generateContent = (typeName: string) => {
@@ -32,7 +32,7 @@ export const generateContent = (typeName: string) => {
   ];
 };
 
-export const tagContent = generateContent(ANNOTATE_TYPE);
+export const tagContent = generateContent(TAG_TYPE);
 export const blendContent = generateContent(BLEND_TYPE);
 
 export const AnnotateBlendTagType = `

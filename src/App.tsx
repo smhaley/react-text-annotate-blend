@@ -84,9 +84,8 @@ export default function App() {
   const modeHandler = (mode: string) => {
     setMode(mode);
   };
-  //
+
   const clickHandler = (section: string) => {
-    //scrolls to a section
     const node = refs[section];
     if (node && node.current) {
       node.current.scrollIntoView({
