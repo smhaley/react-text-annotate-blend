@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
+import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,6 +15,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Typography from "@material-ui/core/Typography";
 import BrightnessIcon from "@material-ui/icons/Brightness7";
+import { labelBySection } from "../constants";
 import {
   makeStyles,
   useTheme,
@@ -82,8 +84,13 @@ const useStyles = makeStyles((theme: Theme) =>
     titleBarIcons: {
       marginLeft: "auto",
     },
+
     activeText: {
       color: theme.palette.secondary.main,
+    },
+
+    activeHeadText: {
+      color: theme.palette.primary.main,
     },
 
     heading: {
@@ -92,19 +99,27 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "none",
       },
     },
+    componentHead: {
+      fontFamily: "Lucida Console, Courier New, monospace",
+    },
   })
 );
 
 interface Props {
   mode: string;
   setMode: (mode: string) => void;
-  active: number;
-  clickHandler: (index: number, section: string) => void;
+  activeSection: string;
+  clickHandler: (section: string) => void;
   window?: () => Window;
 }
 
-const NavBar = (props: Props) => {
-  const { window, active, clickHandler } = props;
+const NavBar = ({
+  window,
+  clickHandler,
+  activeSection,
+  mode,
+  setMode,
+}: Props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -113,30 +128,72 @@ const NavBar = (props: Props) => {
     setMobileOpen(!mobileOpen);
   };
 
+  const textAnnotateBlendOptions = Object.keys(labelBySection.blend);
+  const textAnnotateOptions = Object.keys(labelBySection.tag);
+
   const drawer = (
     <div>
       <div>
         <b> react-text-annotate-blend</b>
       </div>
       <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        {["TextAnnotateBlend", "Live Code", "Props"].map((text, index) => (
-          <ListItem
-            button
-            style={{ backgroundColor: "transparent" }}
-            key={text}
-            onClick={() => clickHandler(index, text)}
-          >
-            {active === index ? (
-              <strong className={classes.activeText}>{text}</strong>
-            ) : (
-              <strong>{text}</strong>
-            )}
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
+      <Box pb={2}>
+        <b
+          className={`${classes.componentHead} ${
+            textAnnotateBlendOptions.includes(activeSection) &&
+            classes.activeHeadText
+          }`}
+        >{`<TextAnnotateBlend/>`}</b>
+        <Divider />
+        <List>
+          {textAnnotateBlendOptions.map((text) => (
+            <ListItem
+              button
+              style={{ backgroundColor: "transparent" }}
+              key={text}
+              onClick={() => clickHandler(text)}
+            >
+              {activeSection === text ? (
+                <strong className={classes.activeText}>
+                  {Object.values(labelBySection.blend[text])}
+                </strong>
+              ) : (
+                <strong>{Object.values(labelBySection.blend[text])}</strong>
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Box>
+      <Box mt={2}>
+        <b
+          className={`${classes.componentHead} ${
+            textAnnotateOptions.includes(activeSection)
+              ? classes.activeHeadText
+              : undefined
+          }`}
+        >{`<TextAnnotate/>`}</b>
+        <Divider />
+        <List>
+          {textAnnotateOptions.map((text, index) => (
+            <ListItem
+              button
+              style={{ backgroundColor: "transparent" }}
+              key={text}
+              onClick={() => clickHandler(text)}
+            >
+              {activeSection === text ? (
+                <strong className={classes.activeText}>
+                  {Object.values(labelBySection.tag[text])}
+                </strong>
+              ) : (
+                <strong>{Object.values(labelBySection.tag[text])}</strong>
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Box>
     </div>
   );
 
@@ -146,12 +203,7 @@ const NavBar = (props: Props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={
-          props.mode === "dark" ? classes.appBarDark : classes.appBarLight
-        }
-      >
+      <AppBar position="fixed" className={classes.appBarLight}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -167,16 +219,10 @@ const NavBar = (props: Props) => {
           </Typography>
           <div className={classes.titleBarIcons}>
             <IconButton
-              onClick={() =>
-                props.setMode(props.mode === "dark" ? "light" : "dark")
-              }
+              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
               aria-label="Light mode"
             >
-              {props.mode === "light" ? (
-                <Brightness4Icon />
-              ) : (
-                <BrightnessIcon />
-              )}
+              {mode === "light" ? <Brightness4Icon /> : <BrightnessIcon />}
             </IconButton>
             <Link href="https://github.com/smhaley/react-text-annotate-blend">
               <IconButton aria-label="github.com">

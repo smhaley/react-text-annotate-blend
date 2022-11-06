@@ -2,8 +2,10 @@ import React, { useState, useRef } from "react";
 import NavBar from "./demo_components/NavBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
+import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import { ThemeProvider } from "@material-ui/core";
 import Heading from "./demo_components/Heading";
@@ -12,6 +14,19 @@ import Demo from "./demo_components/Demo";
 import Section from "./demo_components/Section";
 import { lightTheme, darkTheme } from "./muiThemes";
 import { useDarkMode } from "./demo_components/hooks";
+import * as Sections from "./constants";
+import {
+  contentBlend,
+  contentTag,
+  AnnotateBlendTagType,
+  AnnotateTagType,
+} from "./demo_components/content/props";
+import {
+  BLEND_SCOPE,
+  TAG_SCOPE,
+  tagDemoContent,
+  blendDemoContent,
+} from "./demo_components/content/demo";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -40,37 +55,44 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: "220px",
     },
   },
+  divider: {
+    height: 10,
+    borderRadius: 10,
+  },
 }));
 
 export default function App() {
   const classes = useStyles();
 
-  const [activeProp, setActiveProp] = useState(0);
-  const [demoSection, setDemoSection] = useState("NA");
+  const [activeProp, setActiveProp] = useState(Sections.BLEND_DEMO);
+  const [demoSection, setDemoSection] = useState("");
   const [mode, setMode] = useDarkMode();
 
-  const propsRef = useRef<HTMLDivElement | null>(null);
-
   const refs = {
-    Props: propsRef,
+    [Sections.BLEND_DEMO]: useRef<HTMLDivElement | null>(null),
+    [Sections.BLEND_LIVE]: useRef<HTMLDivElement | null>(null),
+    [Sections.BLEND_PROPS]: useRef<HTMLDivElement | null>(null),
+    [Sections.TAG_DEMO]: useRef<HTMLDivElement | null>(null),
+    [Sections.TAG_LIVE]: useRef<HTMLDivElement | null>(null),
+    [Sections.TAG_PROPS]: useRef<HTMLDivElement | null>(null),
   };
 
-  const activeHandler = (index: number) => {
-    setActiveProp(index);
+  const activeHandler = (sectionName: string) => {
+    setActiveProp(sectionName);
   };
 
   const modeHandler = (mode: string) => {
     setMode(mode);
   };
-  //
-  const clickHandler = (index: number, section: string) => {
+
+  const clickHandler = (section: string) => {
     const node = refs[section];
     if (node && node.current) {
       node.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
-      setDemoSection("NA");
+      setDemoSection("");
     } else {
       setDemoSection(section);
     }
@@ -80,25 +102,68 @@ export default function App() {
     <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
       <CssBaseline />
       <NavBar
-        active={activeProp}
         clickHandler={clickHandler}
         setMode={modeHandler}
         mode={mode}
+        activeSection={activeProp}
       />
       <main className={classes.content}>
         <Container maxWidth="md" style={{ height: "100%" }}>
           <Toolbar />
-
           <Paper className={classes.main}>
             <Heading mode={mode} />
-            <Demo
-              activeHandler={activeHandler}
-              clickSection={demoSection}
-              mode={mode}
-            />
-            <Section ref={propsRef} index={2} activeHandler={activeHandler}>
-              <Props />
-            </Section>
+            <Divider />
+            <Box pb={7}>
+              <Demo
+                activeHandler={activeHandler}
+                clickSection={demoSection}
+                mode={mode}
+                sectionRefs={{
+                  live: refs[Sections.BLEND_LIVE],
+                  demo: refs[Sections.BLEND_DEMO],
+                }}
+                sectionNames={Sections.blendDemoSections}
+                demoScope={BLEND_SCOPE}
+                content={blendDemoContent}
+              />
+              <Section
+                ref={refs[Sections.BLEND_PROPS]}
+                sectionName={Sections.BLEND_PROPS}
+                activeHandler={activeHandler}
+              >
+                <Props
+                  mode={mode}
+                  propContent={contentBlend}
+                  tagType={AnnotateBlendTagType}
+                />
+              </Section>
+            </Box>
+            <Divider className={classes.divider} />
+            <Box pt={6} pb={6}>
+              <Demo
+                activeHandler={activeHandler}
+                clickSection={demoSection}
+                mode={mode}
+                sectionRefs={{
+                  live: refs[Sections.TAG_LIVE],
+                  demo: refs[Sections.TAG_DEMO],
+                }}
+                sectionNames={Sections.tagDemoSections}
+                demoScope={TAG_SCOPE}
+                content={tagDemoContent}
+              />
+              <Section
+                ref={refs[Sections.TAG_PROPS]}
+                sectionName={Sections.TAG_PROPS}
+                activeHandler={activeHandler}
+              >
+                <Props
+                  mode={mode}
+                  propContent={contentTag}
+                  tagType={AnnotateTagType}
+                />
+              </Section>
+            </Box>
           </Paper>
         </Container>
       </main>

@@ -34,7 +34,7 @@ export const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
-      main: "#303030",
+      main: "#47b4e2",
     },
     secondary: {
       main: purple[300],

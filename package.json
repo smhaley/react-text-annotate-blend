@@ -20,8 +20,7 @@
     "react-live": "^2.2.3",
     "react-scripts": "^4.0.3",
     "react-syntax-highlighter": "^15.4.3",
-    "react-text-annotate": "github:smhaley/react-text-annotate",
-    "react-text-annotate-blend": "github:smhaley/react-text-annotate-blend",
+    "react-text-annotate-blend": "^1.1.0",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
   },
