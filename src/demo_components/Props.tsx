@@ -12,45 +12,6 @@ import github from "prism-react-renderer/themes/github";
 import dracula from "prism-react-renderer/themes/dracula";
 import Highlight, { defaultProps } from "prism-react-renderer";
 
-const content = [
-  { name: "content", type: "string", desc: "Input string to annotate." },
-  {
-    name: "value",
-    type: "AnnotateBlendTag[]",
-    desc: "List of annotations to mark",
-  },
-  {
-    name: "onChange?",
-    type: "(value: AnnotateBlendTag[]) => void",
-    dec: "Handler used to set updated value returned from <TextAnnotateBlend/>",
-  },
-  {
-    name: "getSpan?",
-    type: "(span: AnnotateBlendTag) => AnnotateBlendTag",
-    desc: "Passes color and label values along with any additional metadata to highlighted text spans",
-  },
-  {
-    name: "style?",
-    type: "string",
-    desc: "Style attributed to the text container.",
-  },
-  {
-    name: "className?",
-    type: "string",
-    desc: "CSS class passed to the inner component",
-  },
-];
-
-const type = `
-    type AnnotateBlendTag = {
-      start: number;   //tag start position
-      end: number;     //tag end position
-      text?: string;   //tag text
-      color?: string;  //tag color
-      tag?: string;    //tag label
-    };
-`;
-
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -59,20 +20,32 @@ const useStyles = makeStyles({
 
 interface PropsProps {
   mode: string;
+  propContent: {
+    tableContent: {
+      name: string;
+      type: string;
+      desc: string;
+    }[];
+    headingContent: {
+      heading: string;
+      typeName: string;
+      subHeading: string[];
+    };
+  };
+  tagType: string;
 }
 
-const Props: React.FC<PropsProps> = ({ mode }) => {
+const Props: React.FC<PropsProps> = ({ mode, propContent, tagType }) => {
   const classes = useStyles();
 
-  const rows = content.map((content) => {
-    const { name, type, desc } = content;
-    return { name, type, desc };
-  });
+  const { tableContent, headingContent } = propContent;
+
+  const cols = ["Name", "Type", "Description"];
 
   const typeContent = (
     <Highlight
       {...defaultProps}
-      code={type}
+      code={tagType}
       theme={mode === "dark" ? dracula : github}
       language="javascript"
     >
@@ -93,16 +66,18 @@ const Props: React.FC<PropsProps> = ({ mode }) => {
   return (
     <>
       <Box pt={2}>
-        <h3>Props</h3>
+        <h3>{headingContent.heading}</h3>
         <p>
           Inputs for the value prop should should generically match the{" "}
           <strong>Types</strong> described below
         </p>
       </Box>
       <Box pt={4} pb={4}>
-        <strong>AnnotateBlendTag</strong>
-        <p>The primary type of the blending component.</p>
-        <p>Additional expansion of this type is valid.</p>
+        <strong>{headingContent.typeName}</strong>
+        {headingContent.subHeading.map((txt, idx) => (
+          <p key={idx}>{txt}</p>
+        ))}
+
         <Paper elevation={2}>{typeContent}</Paper>
       </Box>
       <Paper elevation={2}>
@@ -110,19 +85,15 @@ const Props: React.FC<PropsProps> = ({ mode }) => {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>
-                  <b>Name</b>
-                </TableCell>
-                <TableCell align="left">
-                  <b>Type</b>
-                </TableCell>
-                <TableCell align="left">
-                  <b>Description</b>
-                </TableCell>
+                {cols.map((colName, idx) => (
+                  <TableCell key={colName} align={idx > 0 ? "left" : undefined}>
+                    <b>{colName}</b>
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {tableContent.map((row) => (
                 <TableRow key={row.name}>
                   <TableCell component="th" scope="row">
                     <pre>{row.name}</pre>
@@ -137,9 +108,6 @@ const Props: React.FC<PropsProps> = ({ mode }) => {
           </Table>
         </TableContainer>
       </Paper>
-      <Box pt={4} pb={4}>
-        <b>TextAnnotateBlend only supports a single overlap of annotations.</b>
-      </Box>
     </>
   );
 };

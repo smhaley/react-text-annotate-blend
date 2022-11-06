@@ -5,6 +5,16 @@ export const TAG_PROPS = "tagProps";
 export const TAG_LIVE = "tagDemo";
 export const TAG_DEMO = "tagLive";
 
+export const blendDemoSections = {
+  live: BLEND_LIVE,
+  demo: BLEND_DEMO,
+};
+
+export const tagDemoSections = {
+  live: TAG_LIVE,
+  demo: TAG_DEMO,
+};
+
 export const labelBySection = {
   blend: {
     [BLEND_DEMO]: "TextAnnotateBlend",

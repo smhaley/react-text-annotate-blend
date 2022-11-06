@@ -1,6 +1,7 @@
+export const ANNOTATE_TYPE = "AnnotateTagType";
+export const BLEND_TYPE = "AnnotateBlendTagType";
 
-
-const generateContent = (typeName: string) => {
+export const generateContent = (typeName: string) => {
   return [
     { name: "content", type: "string", desc: "Input string to annotate." },
     {
@@ -11,7 +12,7 @@ const generateContent = (typeName: string) => {
     {
       name: "onChange?",
       type: `(value: ${typeName}[]) => void`,
-      dec: "Handler used to set updated value returned from <TextAnnotateBlend/>",
+      desc: "Handler used to set updated value returned from <TextAnnotateBlend/>",
     },
     {
       name: "getSpan?",
@@ -23,8 +24,16 @@ const generateContent = (typeName: string) => {
       type: "string",
       desc: "Style attributed to the text container.",
     },
-  ]
-} 
+    {
+      name: "className?",
+      type: "string",
+      desc: "CSS class passed to the inner component",
+    },
+  ];
+};
+
+export const tagContent = generateContent(ANNOTATE_TYPE);
+export const blendContent = generateContent(BLEND_TYPE);
 
 export const AnnotateBlendTagType = `
     type AnnotateBlendTag = {
@@ -47,5 +56,30 @@ export const AnnotateTagType = `
     };
 `;
 
-export const contentBlend = generateContent("AnnotateBlendTag")
-export const contentTag = generateContent("AnnotateTag")
+export const blendHeadingContent = {
+  heading: "TextAnnotateBlend Props",
+  typeName: "AnnotateBlendTag",
+  subHeading: [
+    "The primary type of the blending component.",
+    "Additional expansion of this type is valid.",
+  ],
+};
+
+export const tagHeadingContent = {
+  heading: "TextAnnotate Props",
+  typeName: "AnnotateTag",
+  subHeading: [
+    "The primary type of the non blending component.",
+    "Additional expansion of this type is valid.",
+  ],
+};
+
+export const contentBlend = {
+  tableContent: generateContent("AnnotateBlendTag"),
+  headingContent: blendHeadingContent,
+};
+
+export const contentTag = {
+  tableContent: generateContent("AnnotateTag"),
+  headingContent: tagHeadingContent,
+};

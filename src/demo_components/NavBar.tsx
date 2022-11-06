@@ -108,19 +108,22 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   mode: string;
   setMode: (mode: string) => void;
-  // active: number;
   activeSection: string;
-  clickHandler: (index: number, section: string) => void;
+  clickHandler: (section: string) => void;
   window?: () => Window;
 }
 
-const NavBar = (props: Props) => {
-  const { window, clickHandler, activeSection } = props;
+const NavBar = ({
+  window,
+  clickHandler,
+  activeSection,
+  mode,
+  setMode,
+}: Props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  console.log('Nav Bar', props.activeSection);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -128,7 +131,6 @@ const NavBar = (props: Props) => {
   const textAnnotateBlendOptions = Object.keys(labelBySection.blend);
   const textAnnotateOptions = Object.keys(labelBySection.tag);
 
-  console.log(activeSection);
   const drawer = (
     <div>
       <div>
@@ -138,20 +140,23 @@ const NavBar = (props: Props) => {
       <Box pb={2}>
         <b
           className={`${classes.componentHead} ${
-            textAnnotateBlendOptions.includes(activeSection) && classes.activeHeadText
+            textAnnotateBlendOptions.includes(activeSection) &&
+            classes.activeHeadText
           }`}
         >{`<TextAnnotateBlend/>`}</b>
         <Divider />
         <List>
-          {textAnnotateBlendOptions.map((text, index) => (
+          {textAnnotateBlendOptions.map((text) => (
             <ListItem
               button
               style={{ backgroundColor: "transparent" }}
               key={text}
-              onClick={() => clickHandler(index, text)}
+              onClick={() => clickHandler(text)}
             >
               {activeSection === text ? (
-                <strong className={classes.activeText}>{Object.values(labelBySection.blend[text])}</strong>
+                <strong className={classes.activeText}>
+                  {Object.values(labelBySection.blend[text])}
+                </strong>
               ) : (
                 <strong>{Object.values(labelBySection.blend[text])}</strong>
               )}
@@ -163,7 +168,9 @@ const NavBar = (props: Props) => {
       <Box mt={2}>
         <b
           className={`${classes.componentHead} ${
-            textAnnotateOptions.includes(activeSection) ? classes.activeHeadText : undefined
+            textAnnotateOptions.includes(activeSection)
+              ? classes.activeHeadText
+              : undefined
           }`}
         >{`<TextAnnotate/>`}</b>
         <Divider />
@@ -173,10 +180,12 @@ const NavBar = (props: Props) => {
               button
               style={{ backgroundColor: "transparent" }}
               key={text}
-              onClick={() => clickHandler(index, text)}
+              onClick={() => clickHandler(text)}
             >
               {activeSection === text ? (
-                <strong className={classes.activeText}>{Object.values(labelBySection.tag[text])}</strong>
+                <strong className={classes.activeText}>
+                  {Object.values(labelBySection.tag[text])}
+                </strong>
               ) : (
                 <strong>{Object.values(labelBySection.tag[text])}</strong>
               )}
@@ -194,12 +203,7 @@ const NavBar = (props: Props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={
-          props.mode === "dark" ? classes.appBarDark : classes.appBarLight
-        }
-      >
+      <AppBar position="fixed" className={classes.appBarLight}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -215,16 +219,10 @@ const NavBar = (props: Props) => {
           </Typography>
           <div className={classes.titleBarIcons}>
             <IconButton
-              onClick={() =>
-                props.setMode(props.mode === "dark" ? "light" : "dark")
-              }
+              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
               aria-label="Light mode"
             >
-              {props.mode === "light" ? (
-                <Brightness4Icon />
-              ) : (
-                <BrightnessIcon />
-              )}
+              {mode === "light" ? <Brightness4Icon /> : <BrightnessIcon />}
             </IconButton>
             <Link href="https://github.com/smhaley/react-text-annotate-blend">
               <IconButton aria-label="github.com">

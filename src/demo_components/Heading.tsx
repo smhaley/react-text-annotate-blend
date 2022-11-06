@@ -33,7 +33,7 @@ const Heading: React.FC<DemoProps> = ({ mode }) => {
   return (
     <>
       <Box pt={2}>
-        <h3>TextAnnotateBlend</h3>
+        <h3>react-text-annotate-blend</h3>
       </Box>
       <Box p={2} className={classes.heading}>
         A React component library for interactive text annotation with full

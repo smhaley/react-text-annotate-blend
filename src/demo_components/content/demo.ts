@@ -1,8 +1,11 @@
+import { TextAnnotate, TextAnnotateBlend } from "react-text-annotate-blend";
+import Div from "../demo/Div";
+import Selector from "../demo/Selector";
+
 export const demoText =
-"There are many stories about the origins of cyclo-cross. One is that European road racers in the early 1900s would race each other to the next town over from them and that they were allowed to cut through farmers' fields or over fences, or take any other shortcuts, in order to make it to the next town first. This was sometimes called steeple chase as the only visible landmark in the next town was often the steeple.";
+  "There are many stories about the origins of cyclo-cross. One is that European road racers in the early 1900s would race each other to the next town over from them and that they were allowed to cut through farmers' fields or over fences, or take any other shortcuts, in order to make it to the next town first. This was sometimes called steeple chase as the only visible landmark in the next town was often the steeple.";
 
-
-export const blendDemo = `
+export const blendSrc = `
 //import { TextAnnotateBlend } from "react-text-annotate-blend"
 
 function App () {
@@ -72,7 +75,31 @@ export const blendInit = [
   },
 ];
 
-export const annotateDemo = `
+export const tagInit = [
+  {
+    start: 0,
+    end: 22,
+    text: "There are many stories",
+    tag: "tagA",
+    color: "rgb(179, 245, 66)",
+  },
+  {
+    start: 97,
+    end: 108,
+    text: "early 1900s",
+    tag: "tagB",
+    color: "#42f5f5",
+  },
+  {
+    start: 249,
+    end: 264,
+    text: "other shortcuts",
+    tag: "tagC",
+    color: "#4b46cd",
+  },
+];
+
+export const tagSrc = `
 //import { TextAnnotate } from "react-text-annotate-blend"
 
 function App () {
@@ -117,3 +144,52 @@ function App () {
       </>
     );
 };`;
+
+export const BLEND_SCOPE = "blendScope";
+export const TAG_SCOPE = "tagScope";
+
+export const blendScope = {
+  TextAnnotateBlend,
+  init: blendInit,
+  Selector,
+  Div,
+  demoText,
+};
+export const tagScope = {
+  TextAnnotate,
+  init: tagInit,
+  Selector,
+  Div,
+  demoText,
+};
+
+export const blendDemo = {
+  scope: blendScope,
+  src: blendSrc,
+};
+
+export const tagDemo = {
+  scope: tagScope,
+  src: tagSrc,
+};
+
+export const demos = {
+  [BLEND_SCOPE]: blendDemo,
+  [TAG_SCOPE]: tagDemo,
+};
+
+export const blendDemoContent = {
+  heading: "Live Demo - Text Annotate Blend",
+  instruction: [
+    "Simply highlight to tag & click to untag",
+    "To create a blend, overlap an existing tag",
+  ],
+};
+
+export const tagDemoContent = {
+  heading: "Live Demo - Text Annotate",
+  instruction: [
+    "Simply highlight to tag & click to untag",
+    "This component does not support overlapping.",
+  ],
+};

@@ -22,12 +22,11 @@ const Section = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   useEffect(() => {
     const isVisible = !!entry?.isIntersecting;
     if (isVisible) {
-      console.log(sectionName)
       activeHandler(sectionName);
     }
   }, [entry, sectionName, activeHandler]);
 
-  return <div ref={node} style = {{background: 'pink'}}>{children}</div>;
+  return <div ref={node}>{children}</div>;
 });
 
 export default Section;
