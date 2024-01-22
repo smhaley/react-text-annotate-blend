@@ -2684,14 +2684,12 @@ const colParser = (col) => {
     }
 };
 const luminTest = (col) => {
-    const { r, g, b } = colParser(col);
-    const luma = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
-    if (luma > 0.5) {
-        return false;
-    }
-    else {
-        return true;
-    }
+    // Generate random RGB values within the pastel color range
+    const r = Math.floor(Math.random() * 100 + 155); // Red component between 155 and 255
+    const g = Math.floor(Math.random() * 100 + 155); // Green component between 155 and 255
+    const b = Math.floor(Math.random() * 100 + 155); // Blue component between 155 and 255
+    // Return the RGB string
+    return `rgb(${r}, ${g}, ${b})`;
 };
 const blend = (colA, colB) => {
     let a;
@@ -2775,7 +2773,7 @@ const getOverlap$1 = (value) => {
 };
 
 const Mark = ({ color, className, end, start, onClick, content, tag, }) => {
-    const lumin = color ? luminTest(color) : false;
+    const lumin = color ? luminTest() : false;
     return (React.createElement("mark", { className: className, style: Object.assign({ backgroundColor: color || "#84d2ff", padding: "0 4px" }, (lumin && { color: "white" })), "data-start": start, "data-end": end, onMouseUp: () => onClick({ start: start, end: end }) },
         content,
         tag && (React.createElement("span", { style: { fontSize: "0.7em", fontWeight: 500, marginLeft: 6 } }, tag))));
@@ -3068,7 +3066,7 @@ const generalSplitClick = (split, value, isBlendable, onChange) => {
         return;
     }
     const currentTags = lodash_sortby(value, ["start"]);
-    const overLapLimit = isBlendable ? 1 : 0;
+    const overLapLimit = isBlendable ? 10 : 0;
     const splitIndex = currentTags.findIndex((s) => s.start === start && s.end === end);
     if (splitIndex >= 0) {
         tagTransformer([
@@ -3111,7 +3109,7 @@ const generalHandleMouseUp = (content, value, isBlendable, getSpan, onChange) =>
         if (selectionIsBackwards(selection)) {
             [start, end] = [end, start];
         }
-        const overLapLimit = isBlendable ? 1 : 0;
+        const overLapLimit = isBlendable ? 10 : 0;
         tagTransformer([...value, getSpan({ start, end, text: content.slice(start, end) })], onChange, overLapLimit);
         (_c = window.getSelection()) === null || _c === void 0 ? void 0 : _c.empty();
     }

@@ -32,7 +32,7 @@ export const generalSplitClick = <T extends Span>(
 
   const currentTags = sortBy(value, ["start"]);
 
-  const overLapLimit = isBlendable ? 1 : 0;
+  const overLapLimit = isBlendable ? 10 : 0;
 
   const splitIndex = currentTags.findIndex(
     (s) => s.start === start && s.end === end
@@ -108,7 +108,7 @@ export const generalHandleMouseUp = <T extends Span>(
       [start, end] = [end, start];
     }
 
-    const overLapLimit = isBlendable ? 1 : 0;
+    const overLapLimit = isBlendable ? 10 : 0;
 
     tagTransformer(
       [...value, getSpan({ start, end, text: content.slice(start, end) } as T)],

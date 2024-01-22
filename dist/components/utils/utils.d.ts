@@ -12,7 +12,7 @@ export declare const rgbParse: (col: string) => {
     b: number;
     a: number;
 };
-export declare const luminTest: (col: string) => boolean;
+export declare const luminTest: (col: string) => string;
 export declare const blend: (colA: string, colB: string) => string;
 export declare const splitWithOffsets: <T extends Span>(text: string, offsets: T[], strict?: boolean | undefined) => MarkedSpan[];
 export declare const strictSplitWithOffsets: (text: string, offsets: {

@@ -60,17 +60,16 @@ const colParser = (col: string) => {
   }
 };
 
-export const luminTest = (col: string) => {
-  const { r, g, b } = colParser(col)!;
+export const luminTest = () => {
+  // Generate random RGB values within the pastel color range
+  const r = Math.floor(Math.random() * 55 + 200); // Red component between 200 and 255
+  const g = Math.floor(Math.random() * 55 + 200); // Green component between 200 and 255
+  const b = Math.floor(Math.random() * 55 + 200); // Blue component between 200 and 255
 
-  const luma = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
-
-  if (luma > 0.5) {
-    return false;
-  } else {
-    return true;
-  }
+  // Return the RGB string
+  return `rgb(${r}, ${g}, ${b})`;
 };
+
 
 export const blend = (colA: string, colB: string) => {
   let a: blendObj;
