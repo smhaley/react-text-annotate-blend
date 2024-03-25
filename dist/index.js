@@ -3145,7 +3145,7 @@ const TextAnnotator = ({ content, value, isBlendable, onChange, getSpan, style, 
     const handleMouseUp = decoratedMouseUp();
     const handleSplitClick = decoratedHandleSplitClick();
     const splits = generateSplits(content, value, isBlendable);
-    return (React__default["default"].createElement("div", { className: className, style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React__default["default"].createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}` }, split, { onClick: handleSplitClick }))))));
+    return (React__default["default"].createElement("div", { className: className, style: style, onMouseUp: handleMouseUp }, splits.map((split) => (React__default["default"].createElement(SplitTag, Object.assign({ key: `${split.start}-${split.end}-${split.tag || split.color}` }, split, { onClick: handleSplitClick }))))));
 };
 
 const TextAnnotateBlend = (props) => {
