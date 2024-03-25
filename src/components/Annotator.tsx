@@ -51,7 +51,7 @@ const TextAnnotator = <T extends AnnotateTag>({
     <div className={className} style={style} onMouseUp={handleMouseUp}>
       {splits.map((split) => (
         <SplitTag
-          key={`${split.start}-${split.end}`}
+          key={`${split.start}-${split.end}-${split.tag || split.color}`}
           {...split}
           onClick={handleSplitClick}
         />
