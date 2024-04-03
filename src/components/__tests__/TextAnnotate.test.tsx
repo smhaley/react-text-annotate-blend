@@ -1,5 +1,5 @@
 import React from "react";
-import TextAnnotateBlend from "../components/TextAnnotateBlend";
+import TextAnnotate from "../TextAnnotate";
 import { render, screen } from "@testing-library/react";
 
 const testContent = "this is a test, wahoooo";
@@ -22,21 +22,20 @@ const testVal = [
 
 test("renders without getSpan", () => {
   render(
-    <TextAnnotateBlend
+    <TextAnnotate
       content={testContent}
       value={[{ start: 0, end: 5, tag: "PERSON", text: "this ", extra: 1 }]}
-      onChange={() => {}}
     />
   );
 });
 
 test("renders when value and getSpan return match", () => {
   render(
-    <TextAnnotateBlend
+    <TextAnnotate
       content={testContent}
       value={[{ start: 0, end: 5, tag: "PERSON", text: "foo", extra: 1 }]}
       onChange={() => {}}
-      getSpan={(span: any) => ({
+      getSpan={(span) => ({
         ...span,
         tag: "FOO",
         text: "this ",
@@ -46,14 +45,14 @@ test("renders when value and getSpan return match", () => {
   );
 });
 
-test("render does not duplicate blends", () => {
-  const component = render(
-    <TextAnnotateBlend
+test("render duplicates overlapping tags -- with error message", () => {
+  render(
+    <TextAnnotate
       content={testContent}
       value={testVal}
       onChange={() => {}}
     />
   );
-  const splits = ["this is a", "test", ", wahoooo"];
+  const splits = ["this is a test", "tagA", "test", "tagB", ", wahoooo"];
   splits.forEach((val) => expect(screen.getByText(val)).toBeTruthy());
 });

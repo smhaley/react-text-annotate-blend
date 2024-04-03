@@ -21,6 +21,9 @@
   },
   "homepage": "https://smhaley.github.io/react-text-annotate-blend",
   "devDependencies": {
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@testing-library/react": "^11.2.5",
