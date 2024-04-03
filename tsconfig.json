@@ -23,6 +23,6 @@
     "declaration": true,
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src", "setupTests.ts"],
   "exclude": ["node_modules", "dist", "examples", "rollup.config.js"]
 }

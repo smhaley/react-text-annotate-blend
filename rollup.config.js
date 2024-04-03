@@ -22,7 +22,13 @@ export default [
         exports: "named",
       },
     ],
-    plugins: [peerDepsExternal(), resolve(), commonjs(), typescript()],
+    plugins: [peerDepsExternal(), resolve(), commonjs(), typescript(
+      {
+        tsconfigOverride: {
+          exclude: ["**/__tests__", "**/*.test.tsx", "**/setupTests.ts"]
+        }
+      }
+    )],
     external: ["react", "react-dom"],
   },
   {

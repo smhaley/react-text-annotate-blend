@@ -29,3 +29,5 @@ yarn-error.log*
 deploy.txt
 
 /dev-test
+
+/dist
