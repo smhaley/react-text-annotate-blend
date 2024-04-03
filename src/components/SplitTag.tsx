@@ -10,7 +10,10 @@ export interface SplitProps<T> {
   tag?: string;
   color?: string;
   onClick: (span: T) => void;
-  className?: string;
+  markClassName?: string;
+  markStyle?: React.CSSProperties;
+  tagClassName?: string;
+  tagStyle?: React.CSSProperties;
   mark?: boolean;
   index?: number;
 }

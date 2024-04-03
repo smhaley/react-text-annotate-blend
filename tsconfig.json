@@ -19,7 +19,6 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "jsx": "react",
-    "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "declaration": true,
     "outDir": "dist"

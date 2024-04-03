@@ -20,6 +20,10 @@ const TextAnnotator = <T extends AnnotateTag>({
   getSpan,
   style,
   className,
+  markClassName,
+  markStyle,
+  tagClassName,
+  tagStyle,
 }: AnnotatorProps<T>) => {
   const annotateGetSpan = (span: T): T => {
     if (getSpan) return getSpan(span) as T;
@@ -51,6 +55,10 @@ const TextAnnotator = <T extends AnnotateTag>({
     <div className={className} style={style} onMouseUp={handleMouseUp}>
       {splits.map((split) => (
         <SplitTag
+          markClassName={markClassName}
+          markStyle={markStyle}
+          tagClassName={tagClassName}
+          tagStyle={tagStyle}
           key={`${split.start}-${split.end}`}
           {...split}
           onClick={handleSplitClick}

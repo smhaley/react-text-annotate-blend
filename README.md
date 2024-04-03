@@ -2,14 +2,17 @@
 
 ### React component library for interactive text annotations with support for overlapping annotations that blend
 
-This project extends and cleans up the `TextAnnotator` component from <a href='https://mcamac.github.io/react-text-annotate/'>`react-text-annotate`</a>.
+## [Check the docs!](https://smhaley.github.io/react-text-annotate-blend)
 
-<a href='https://smhaley.github.io/react-text-annotate-blend/'> <b>Check the docs!</b></a>
+[starter code](https://github.com/smhaley/react-text-annotate-blend/tree/main/examples)
 
-<a href='https://github.com/smhaley/react-text-annotate-blend/tree/main/examples'>Starter code</a>
+### TextAnnotateBlend
 
+This component allows for text annotation with overlapping start and end positions. The overlap is resolved as a _blend_ of the two tag colors to visually indicate the overlap.
 
-### Minimum Blended Annotation example:
+TextAnnotateBlend only supports a single overlap of annotations at a given position. 
+
+## Minimum Blended Annotation example:
 
 ```js
 const value = [
@@ -33,7 +36,13 @@ const value = [
 />
 ```
 
-### Minimum Annotation example:
+### TextAnnotate
+
+TextAnnotate is a simple text annotation component bound to start and end positioning. Overlapping components is not supported.
+
+This component extends and cleans up the `TextAnnotator` component from [react-text-annotate](https://mcamac.github.io/react-text-annotate).
+
+## Minimum Annotation example:
 
 ```js
 const value = [
