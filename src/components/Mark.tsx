@@ -10,13 +10,19 @@ export interface MarkProps<T> {
   onClick: (arg: T) => void;
   tag?: string;
   color?: string;
-  className?: string;
+  markClassName?: string;
+  markStyle?: React.CSSProperties;
+  tagClassName?: string;
+  tagStyle?: React.CSSProperties;
   index?: number;
 }
 
 const Mark = <T extends MarkedSpan>({
   color,
-  className,
+  markClassName,
+  markStyle,
+  tagClassName,
+  tagStyle,
   end,
   start,
   onClick,
@@ -26,11 +32,12 @@ const Mark = <T extends MarkedSpan>({
   const lumin = color ? luminTest(color) : false;
   return (
     <mark
-      className={className}
+      className={markClassName}
       style={{
         backgroundColor: color || "#84d2ff",
         padding: "0 4px",
         ...(lumin && { color: "white" }),
+        ...markStyle,
       }}
       data-start={start}
       data-end={end}
@@ -38,7 +45,15 @@ const Mark = <T extends MarkedSpan>({
     >
       {content}
       {tag && (
-        <span style={{ fontSize: "0.7em", fontWeight: 500, marginLeft: 6 }}>
+        <span
+          className={tagClassName}
+          style={{
+            fontSize: "0.7em",
+            fontWeight: 500,
+            marginLeft: 6,
+            ...tagStyle,
+          }}
+        >
           {tag}
         </span>
       )}

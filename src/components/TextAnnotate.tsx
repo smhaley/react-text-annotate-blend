@@ -9,6 +9,10 @@ export type TextAnnotateProps<T> = {
   getSpan?: (span: T) => T;
   style?: React.CSSProperties;
   className?: string;
+  markClassName?: string;
+  markStyle?: React.CSSProperties
+  tagClassName?: string;
+  tagStyle?: React.CSSProperties
 };
 
 const TextAnnotate = <T extends AnnotateTag>(props: TextAnnotateProps<T>) => {
