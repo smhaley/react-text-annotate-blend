@@ -183,6 +183,7 @@ export const blendDemoContent = {
   instruction: [
     "Simply highlight to tag & click to untag",
     "To create a blend, overlap an existing tag",
+    "Tags may only overlap at a given position one time"
   ],
 };
 

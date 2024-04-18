@@ -21,14 +21,22 @@ export const generateContent = (typeName: string) => {
     },
     {
       name: "style?",
-      type: "string",
+      type: "React.CSSProperties",
       desc: "Style attributed to the text container.",
     },
     {
       name: "className?",
       type: "string",
-      desc: "CSS class passed to the inner component",
+      desc: "CSS class passed to the text container",
     },
+    {
+      name: "markClassName?",
+      type: "string",
+      desc: "Class passed to the the highlighted <mark/> tag",
+    },
+    { name: "markStyle?", type: "React.CSSProperties", desc: "Style passed to the the highlighted <mark/> tag" },
+    { name: "tagClassName?", type: "string", desc: " Class passed to the the highlighted <span/> following a tag" },
+    { name: "tagStyle?", type: "React.CSSProperties", desc: "styles passed to the the highlighted <span/> following a tag" },
   ];
 };
 
